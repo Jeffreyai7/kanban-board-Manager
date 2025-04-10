@@ -8,7 +8,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="relative py-6 px-6 flex justify-between items-center shadow">
+    <header className="fixed bg-[#f9f9f9] max-h-20 h-full py-6 px-6 flex justify-between items-center shadow w-full">
       <div className="flex gap-1 items-center">
         <div className="flex gap-0.5 border border-gray-200 rounded p-1">
           <div className="h-6 w-2 bg-blue-700 rounded"></div>
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
             <li key={index}>
               <a
                 href={`#${link.toLowerCase()}`}
-                className="font-medium text-2xl hover:text-blue-600 transition-colors"
+                className="font-medium text-lg hover:text-blue-600 transition-colors"
               >
                 {link}
               </a>
@@ -35,10 +35,10 @@ const Header: React.FC = () => {
 
       {/* Desktop buttons */}
       <div className="hidden md:flex gap-4">
-        <button className="border border-blue-600 cursor-pointer rounded-2xl px-4 py-1">
+        <button className="border border-blue-700 cursor-pointer rounded-2xl px-4 py-1 hover:bg-gray-100 transition-all duration-300">
           Log in
         </button>
-        <button className="bg-blue-600 border text-white border-blue-600 cursor-pointer rounded-2xl px-4 py-1">
+        <button className="bg-blue-700 hover:bg-blue-900 border text-white border-blue-700 cursor-pointer rounded-2xl px-4 py-1 transition-all duration-300">
           Sign Up
         </button>
         <button className="md:hidden">
@@ -48,7 +48,7 @@ const Header: React.FC = () => {
 
       {/* Hamburger Icon (Mobile) */}
       <button
-        className="md:hidden"
+        className="md:hidden transition-all duration-300"
         onClick={toggleMenu}
         aria-label="Toggle menu"
       >
@@ -61,7 +61,7 @@ const Header: React.FC = () => {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="absolute top-[70%] left-0 w-full bg-white shadow-md p-6 flex flex-col items-start space-y-4 z-10 md:hidden transition-all duration-300">
+        <div className="absolute h-screen top-[70%] left-0 right-0 bg-[#f9f9f9] shadow-md p-6 flex flex-col items-center space-y-10 z-10 md:hidden transition-all duration-300">
           {["Features", "Pricing", "About"].map((link, index) => (
             <a
               key={index}
@@ -73,14 +73,14 @@ const Header: React.FC = () => {
             </a>
           ))}
 
-          <hr className="w-full border-gray-200" />
-
-          <button className="w-full border border-blue-600 rounded-2xl py-2 text-center">
-            Log in
-          </button>
-          <button className="w-full bg-blue-600 text-white rounded-2xl py-2 text-center">
-            Sign Up
-          </button>
+          <div className="grid grid-cols-2 gap-3 w-full mt-10">
+            <button className="w-full border border-blue-600 rounded-2xl py-2 text-center">
+              Log in
+            </button>
+            <button className="w-full bg-blue-600 text-white rounded-2xl py-2 text-center">
+              Sign Up
+            </button>
+          </div>
         </div>
       )}
     </header>
