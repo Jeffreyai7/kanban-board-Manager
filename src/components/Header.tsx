@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen((open) => !open);
   };
@@ -35,19 +37,25 @@ const Header: React.FC = () => {
 
       {/* Desktop buttons */}
       <div className="hidden md:flex gap-4">
-        <button className="border border-blue-700 cursor-pointer rounded-2xl px-4 py-1 hover:bg-gray-100 transition-all duration-300">
+        <button
+          type="button"
+          onClick={() => navigate("/login")}
+          className="border border-blue-700 cursor-pointer rounded-2xl px-4 py-1 hover:bg-gray-100 transition-all duration-300"
+        >
           Log in
         </button>
-        <button className="bg-blue-700 hover:bg-blue-900 border text-white border-blue-700 cursor-pointer rounded-2xl px-4 py-1 transition-all duration-300">
+        <button
+          type="button"
+          onClick={() => navigate("/sign-up")}
+          className="bg-blue-700 hover:bg-blue-900 border text-white border-blue-700 cursor-pointer rounded-2xl px-4 py-1 transition-all duration-300"
+        >
           Sign Up
-        </button>
-        <button className="md:hidden">
-          <div className="bg-blue-800 w-6 h-6"></div>
         </button>
       </div>
 
       {/* Hamburger Icon (Mobile) */}
       <button
+        type="button"
         className="md:hidden transition-all duration-300"
         onClick={toggleMenu}
         aria-label="Toggle menu"
@@ -74,10 +82,18 @@ const Header: React.FC = () => {
           ))}
 
           <div className="grid grid-cols-2 gap-3 w-full mt-10">
-            <button className="w-full border border-blue-600 rounded-2xl py-2 text-center">
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="w-full border border-blue-600 rounded-2xl py-2 text-center"
+            >
               Log in
             </button>
-            <button className="w-full bg-blue-600 text-white rounded-2xl py-2 text-center">
+            <button
+              type="button"
+              onClick={() => navigate("/sign-up")}
+              className="w-full bg-blue-600 text-white rounded-2xl py-2 text-center"
+            >
               Sign Up
             </button>
           </div>
