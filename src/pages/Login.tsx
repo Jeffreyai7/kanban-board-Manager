@@ -6,20 +6,21 @@ import { loginSchema } from "../lib/utils";
 import { useState } from "react";
 
 const Login = () => {
-  const [isSubmitting, setSubmitting] = useState(false);
-
   const navigate = useNavigate();
 
-  const { handleSubmit, register, setError } = useForm({
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = handleSubmit((data) => {
     try {
-      setSubmitting(true);
       console.log(data);
     } catch (error) {
-      setSubmitting(false);
+      console.error(error);
     }
   });
 
@@ -51,6 +52,11 @@ const Login = () => {
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm font-medium">
+                    {errors.email?.message}
+                  </p>
+                )}
               </div>
 
               <div className="mt-6">
@@ -68,13 +74,22 @@ const Login = () => {
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
+                {errors.password && (
+                  <p className="text-red-500 text-sm font-medium">
+                    {errors.password?.message}
+                  </p>
+                )}
               </div>
 
               <button
                 type="submit"
                 className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out"
+                disabled={isSubmitting}
               >
-                Log in
+                {isSubmitting && (
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
+                )}
+                {isSubmitting ? "logging in..." : "login"}
               </button>
             </form>
             <div className="mt-6 text-center">
