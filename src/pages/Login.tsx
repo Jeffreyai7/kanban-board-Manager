@@ -1,6 +1,28 @@
+import { useNavigate } from "react-router-dom";
 import LeftBackground from "../components/LeftBackground";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "../lib/utils";
+import { useState } from "react";
 
 const Login = () => {
+  const [isSubmitting, setSubmitting] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { handleSubmit, register, setError } = useForm({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = handleSubmit((data) => {
+    try {
+      setSubmitting(true);
+      console.log(data);
+    } catch (error) {
+      setSubmitting(false);
+    }
+  });
+
   return (
     <section className="flex flex-col w-full min-h-screen">
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg  overflow-hidden">
@@ -13,10 +35,7 @@ const Login = () => {
             <p className="text-[1rem] text-[#6B7280] text-center leading-[24px]">
               Access your dashboard to manage your projects and tasks.
             </p>
-            <form
-              action="
-            "
-            >
+            <form onSubmit={onSubmit}>
               <div className="mt-8">
                 <label
                   htmlFor="email"
@@ -25,6 +44,7 @@ const Login = () => {
                   Email address
                 </label>
                 <input
+                  {...register("email")}
                   type="email"
                   id="email"
                   name="email"
@@ -41,6 +61,7 @@ const Login = () => {
                   Password
                 </label>
                 <input
+                  {...register("password")}
                   type="password"
                   id="password"
                   name="password"
@@ -56,7 +77,17 @@ const Login = () => {
                 Log in
               </button>
             </form>
-            
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                Don't have an account?{" "}
+                <span
+                  onClick={() => navigate("/sign-up")}
+                  className="text-blue-600 hover:text-blue-700 font-semibold cursor-pointer transition duration-200 ease-in-out"
+                >
+                  Sign up
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </div>

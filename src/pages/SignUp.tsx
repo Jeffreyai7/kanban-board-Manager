@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import LeftBackground from "../components/LeftBackground";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="flex flex-col w-full min-h-screen">
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg  overflow-hidden">
@@ -8,10 +11,10 @@ const SignUp = () => {
         <div className="w-full md:w-1/2 min-w-[480px] relative bg-white h-screen overflow-y-auto">
           <div className="max-w-md mx-auto lg:mt-24 xl:mt-52">
             <h1 className="text-[1.8rem] text-center leading-[36px] font-bold">
-              Log in to your account
+              Create your account
             </h1>
             <p className="text-[1rem] text-[#6B7280] text-center leading-[24px]">
-              Access your dashboard to manage your projects and tasks.
+              Get started with your projects and tasks.
             </p>
             <form
               action="
@@ -161,6 +164,15 @@ const SignUp = () => {
                 Log in
               </button>
             </form>
+            <p className="mt-4 text-sm text-center text-gray-500">
+              Already have an account?{" "}
+              <span
+                onClick={() => navigate("/login")}
+                className="text-blue-600 hover:underline cursor-pointer font-semibold transition duration-200 ease-in-out"
+              >
+                Sign in
+              </span>
+            </p>
           </div>
         </div>
       </div>
