@@ -3,7 +3,11 @@ import LeftBackground from "../components/LeftBackground";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../lib/utils";
-import { useState } from "react";
+import {
+  GoogleLogin,
+  CredentialResponse,
+  GoogleOAuthProvider,
+} from "@react-oauth/google";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,9 +20,18 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
+    console.log(credentialResponse);
+    if (credentialResponse) {
+      navigate("/dashboard");
+    }
+  };
+
   const onSubmit = handleSubmit((data) => {
     try {
-      console.log(data);
+      if (data) {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -28,8 +41,8 @@ const Login = () => {
     <section className="flex flex-col w-full min-h-screen">
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg  overflow-hidden">
         <LeftBackground />
-        <div className="w-full md:w-1/2 min-w-[480px] relative bg-white h-screen overflow-y-auto">
-          <div className="max-w-md mx-auto lg:mt-24 xl:mt-52">
+        <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[480px] relative bg-white h-screen overflow-y-auto px-4">
+          <div className="max-w-md mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-32 xl:mt-52">
             <h1 className="text-[1.8rem] text-center leading-[36px] font-bold">
               Log in to your account
             </h1>
@@ -83,7 +96,7 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out"
+                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 cursor-pointer rounded-md transition duration-200 ease-in-out"
                 disabled={isSubmitting}
               >
                 {isSubmitting && (
@@ -102,6 +115,18 @@ const Login = () => {
                   Sign up
                 </span>
               </p>
+            </div>
+            <div className="w-full text-white font-medium py-3 rounded-md hover:bg-[rgb(253,130,64, 0.5)] transition cursor-pointer">
+              <GoogleOAuthProvider
+                clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
+              >
+                <GoogleLogin
+                  onSuccess={handleGoogleLogin}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </GoogleOAuthProvider>
             </div>
           </div>
         </div>

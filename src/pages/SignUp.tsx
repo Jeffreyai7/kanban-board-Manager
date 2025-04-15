@@ -19,6 +19,7 @@ const SignUp = () => {
   const onSubmit = handleSubmit((data) => {
     try {
       console.log(data);
+      navigate("/login");
     } catch (error) {}
   });
 
@@ -26,8 +27,8 @@ const SignUp = () => {
     <section className="flex flex-col w-full min-h-screen">
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg  overflow-hidden">
         <LeftBackground />
-        <div className="w-full md:w-1/2 min-w-[480px] relative bg-white h-screen overflow-y-auto">
-          <div className="max-w-md mx-auto lg:mt-24 xl:mt-52">
+        <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[480px] relative bg-white h-screen overflow-y-auto px-4">
+          <div className="max-w-md mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-32 xl:mt-52">
             <h1 className="text-[1.8rem] text-center leading-[36px] font-bold">
               Create your account
             </h1>
@@ -167,7 +168,7 @@ const SignUp = () => {
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  email
+                  Email
                 </label>
                 <input
                   {...register("email")}
@@ -228,7 +229,7 @@ const SignUp = () => {
 
               <button
                 type="submit"
-                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 ease-in-out"
+                className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold cursor-pointer py-2 px-4 rounded-md transition duration-200 ease-in-out"
                 disabled={isSubmitting}
               >
                 {isSubmitting && (
