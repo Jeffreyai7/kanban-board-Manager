@@ -37,27 +37,53 @@ const TaskBoard: React.FC = () => {
     status: "todo",
   });
 
-  // Load from localStorage or use mock data
+  // useEffect(() => {
+
+  //   const stored = localStorage.getItem("kanban-tasks");
+  //   if (stored) {
+  //     setTasks(JSON.parse(stored));
+  //     console.log("Loaded from localStorage:", JSON.parse(stored));
+  //   } else {
+  //     // If no data in localStorage, fetch from JSON
+  //     fetch("/data/data.json")
+  //       .then((response) => response.json())
+  //       .then((data: Task[]) => {
+  //         setTasks(data);
+  //         localStorage.setItem("kanban-tasks", JSON.stringify(data));
+  //         console.log("Loaded from data.json:", data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching data:", error);
+  //       });
+  //   }
+  // }, []);
+
   useEffect(() => {
     const stored = localStorage.getItem("kanban-tasks");
+
     if (stored) {
+      // Load from localStorage if available
       setTasks(JSON.parse(stored));
+      console.log("✅ Loaded from localStorage");
     } else {
-      // Fetch from data.json if nothing is in localStorage
+      // First-time load from data.json
       fetch("/data/data.json")
         .then((response) => response.json())
         .then((data: Task[]) => {
           setTasks(data);
+          localStorage.setItem("kanban-tasks", JSON.stringify(data));
         })
         .catch((error) => {
-          console.error("Error fetching data:", error);
+          console.error("❌ Error fetching data.json:", error);
         });
     }
   }, []);
 
-  // Save tasks to localStorage
+  // Save to localStorage on any update
   useEffect(() => {
-    localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
+    if (tasks.length > 0) {
+      localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
+    }
   }, [tasks]);
 
   // Modal controls
