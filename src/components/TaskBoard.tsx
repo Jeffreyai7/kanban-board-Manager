@@ -6,8 +6,8 @@ import {
   DropResult,
 } from "@hello-pangea/dnd";
 import { v4 as uuidv4 } from "uuid";
-import { TaskStatus, Task } from "../../types/types";
-// import Button from "../Button";
+import { TaskStatus, Task } from "../types/types";
+import Button from "./Button";
 
 const COLUMN_LABELS: Record<TaskStatus, string> = {
   todo: "To Do",
@@ -159,6 +159,7 @@ const TaskBoard: React.FC = () => {
 
     newTasks.splice(insertAt, 0, updatedTask);
     setTasks(newTasks);
+    // updateTasks(newTasks);
   };
 
   return (
@@ -180,12 +181,12 @@ const TaskBoard: React.FC = () => {
                   >
                     <div className="flex items-center justify-between mb-4">
                       <span className="font-semibold text-lg">{label}</span>
-                      <button
-                        className="bg-blue-500 text-white rounded px-2 py-1 text-sm hover:bg-blue-600"
+                      <Button
+                        size="sm"
                         onClick={() => openAddModal(status as TaskStatus)}
                       >
                         + Add
-                      </button>
+                      </Button>
                     </div>
                     <div className="flex-1 space-y-3">
                       {columnTasks.map((task, idx) => (

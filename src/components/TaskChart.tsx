@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -6,28 +7,34 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { useTasks } from "../context/TaskContext";
+import { Task, TaskStatus } from "../types/types";
 
-const TaskChart = () => {
-  const { tasks } = useTasks();
+interface TaskChartProps {
+  tasks: Task[];
+}
 
-  // Group tasks by status
-  const data = ["todo", "in progress", "done"].map((status) => ({
-    status,
+const COLUMN_LABELS: Record<TaskStatus, string> = {
+  todo: "To Do",
+  inprogress: "In Progress",
+  needreview: "Need Review",
+  done: "Done",
+};
+
+const TaskChart: React.FC<TaskChartProps> = ({ tasks }) => {
+  const chartData = Object.keys(COLUMN_LABELS).map((status) => ({
+    status: COLUMN_LABELS[status as TaskStatus],
     count: tasks.filter((task) => task.status === status).length,
   }));
 
   return (
-    <div className="bg-blue-100 dark:bg-gray-800 p-4 rounded-md shadow w-full max-w-2xl mx-auto">
-      <h3 className="font-semibold text-lg mb-4 text-center">
-        Task Status Overview
-      </h3>
+    <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-2xl mx-auto">
+      <h2 className="text-xl font-bold mb-4 text-center">Task Summary</h2>
       <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
+        <BarChart data={chartData}>
           <XAxis dataKey="status" />
-          <YAxis />
+          <YAxis allowDecimals={false} />
           <Tooltip />
-          <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="count" fill="#3b82f6" />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -4,10 +4,10 @@ import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import Dashboard from "../components/Dashboard";
 import MainLayout from "../components/layout/MainLayout";
-import Tasks from "../components/TaskBoard/TaskBoard";
+import Tasks from "../components/TaskBoard";
 import Settings from "../components/Settings";
-import { TaskProvider } from "../context/TaskContext";
-import { ActivityLogProvider } from "../context/ActivityLogContext";
+import { TaskProvider } from "../../../other data/context/TaskContext";
+import { ActivityLogProvider } from "../../../other data/context/ActivityLogContext";
 
 const router = createBrowserRouter([
   {
