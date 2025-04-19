@@ -18,3 +18,10 @@ export interface User {
   email: string;
   avatar: string;
 }
+
+export interface TaskContextType {
+  tasks: Task[];
+  addTask: (task: Task) => void;
+  updateTask: (task: Task) => void;
+  deleteTask: (id: string) => void;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -8,6 +8,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { TaskStatus, Task } from "../types/types";
 import Button from "./Button";
+import { useTaskContext } from "../context/TaskContext";
 
 const COLUMN_LABELS: Record<TaskStatus, string> = {
   todo: "To Do",
@@ -16,17 +17,14 @@ const COLUMN_LABELS: Record<TaskStatus, string> = {
   done: "Done",
 };
 
-// ---- Main Kanban Board Component ----
 const TaskBoard: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const { tasks, addTask, updateTask, deleteTask } = useTaskContext();
   const [modal, setModal] = useState<null | {
     mode: "add" | "edit";
     status?: TaskStatus;
     task?: Task;
   }>(null);
 
-  // form-- add status
   const [form, setForm] = useState<{
     title: string;
     description: string;
@@ -37,56 +35,6 @@ const TaskBoard: React.FC = () => {
     status: "todo",
   });
 
-  // useEffect(() => {
-
-  //   const stored = localStorage.getItem("kanban-tasks");
-  //   if (stored) {
-  //     setTasks(JSON.parse(stored));
-  //     console.log("Loaded from localStorage:", JSON.parse(stored));
-  //   } else {
-  //     // If no data in localStorage, fetch from JSON
-  //     fetch("/data/data.json")
-  //       .then((response) => response.json())
-  //       .then((data: Task[]) => {
-  //         setTasks(data);
-  //         localStorage.setItem("kanban-tasks", JSON.stringify(data));
-  //         console.log("Loaded from data.json:", data);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching data:", error);
-  //       });
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("kanban-tasks");
-
-    if (stored) {
-      // Load from localStorage if available
-      setTasks(JSON.parse(stored));
-      console.log("✅ Loaded from localStorage");
-    } else {
-      // First-time load from data.json
-      fetch("/data/data.json")
-        .then((response) => response.json())
-        .then((data: Task[]) => {
-          setTasks(data);
-          localStorage.setItem("kanban-tasks", JSON.stringify(data));
-        })
-        .catch((error) => {
-          console.error("❌ Error fetching data.json:", error);
-        });
-    }
-  }, []);
-
-  // Save to localStorage on any update
-  useEffect(() => {
-    if (tasks.length > 0) {
-      localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
-    }
-  }, [tasks]);
-
-  // Modal controls
   const openAddModal = (status: TaskStatus) => {
     setForm({ title: "", description: "", status });
     setModal({ mode: "add", status });
@@ -121,33 +69,26 @@ const TaskBoard: React.FC = () => {
       description: form.description,
       status: form.status as TaskStatus,
     };
-    setTasks((prev) => [...prev, newTask]);
+    addTask(newTask);
     closeModal();
   };
 
   const handleEditTask = () => {
     if (!form.title.trim() || !modal?.task || !form.status) return;
 
-    setTasks((prev) =>
-      prev.map((t) =>
-        t.id === modal.task!.id
-          ? {
-              ...t,
-              title: form.title,
-              description: form.description,
-              status: form.status as TaskStatus,
-            }
-          : t
-      )
-    );
+    updateTask({
+      ...modal.task,
+      title: form.title,
+      description: form.description,
+      status: form.status,
+    });
     closeModal();
   };
 
   const handleDeleteTask = (id: string) => {
-    setTasks((prev) => prev.filter((t) => t.id !== id));
+    deleteTask(id);
   };
 
-  // Drag and drop handler
   const handleDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
     if (!destination) return;
@@ -160,39 +101,17 @@ const TaskBoard: React.FC = () => {
     const draggedTask = tasks.find((t) => t.id === draggableId);
     if (!draggedTask) return;
 
-    const updatedTask = {
+    updateTask({
       ...draggedTask,
       status: destination.droppableId as TaskStatus,
-    };
-
-    const newTasks = tasks.filter((t) => t.id !== draggableId);
-    const destTasks = newTasks.filter(
-      (t) => t.status === destination.droppableId
-    );
-
-    let insertAt = 0;
-    for (let i = 0, count = 0; i < newTasks.length; i++) {
-      if (newTasks[i].status === destination.droppableId) {
-        if (count === destination.index) {
-          insertAt = i;
-          break;
-        }
-        count++;
-      }
-      if (i === newTasks.length - 1) insertAt = newTasks.length;
-    }
-    if (destTasks.length === 0) insertAt = newTasks.length;
-
-    newTasks.splice(insertAt, 0, updatedTask);
-    setTasks(newTasks);
-    // updateTasks(newTasks);
+    });
   };
 
   return (
-    <div className="p-6 bg-gray-100 overflow-y-auto">
+    <div className="p-6 bg-gray-100">
       <h1 className="text-3xl font-bold mb-8 text-center">Kanban Board</h1>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="flex gap-6 overflow-x-auto justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 space-y-7 justify-center">
           {Object.entries(COLUMN_LABELS).map(([status, label]) => {
             const columnTasks = tasks.filter((t) => t.status === status);
             return (
@@ -201,7 +120,7 @@ const TaskBoard: React.FC = () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`bg-white rounded-lg shadow-md w-80 flex flex-col p-4 min-h-[400px] transition ${
+                    className={`bg-white rounded-lg shadow-md max-w-80 w-full flex flex-col p-4 min-h-[400px] transition ${
                       snapshot.isDraggingOver ? "bg-blue-50" : ""
                     }`}
                   >
@@ -233,27 +152,31 @@ const TaskBoard: React.FC = () => {
                               }`}
                             >
                               <div className="flex justify-between items-center">
-                                <span className="font-semibold">
+                                <h3 className="font-semibold text-sm text-violet-600 bg-violet-100 py-0.5 px-1 rounded-sm">
                                   {task.title}
-                                </span>
-                                <div className="flex gap-2">
-                                  <button
-                                    className="text-blue-500 hover:underline text-xs"
-                                    onClick={() => openEditModal(task)}
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    className="text-red-500 hover:underline text-xs"
-                                    onClick={() => handleDeleteTask(task.id)}
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
+                                </h3>
                               </div>
                               {task.description && (
                                 <div className="text-gray-600 text-sm">
                                   {task.description}
+
+                                  <div className="flex justify-end gap-3 mt-2">
+                                    <Button
+                                      variant="edit"
+                                      size="xs"
+                                      onClick={() => openEditModal(task)}
+                                    >
+                                      Edit
+                                    </Button>
+
+                                    <Button
+                                      variant="delete"
+                                      size="xs"
+                                      onClick={() => handleDeleteTask(task.id)}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </div>
                                 </div>
                               )}
                             </div>
@@ -270,7 +193,6 @@ const TaskBoard: React.FC = () => {
         </div>
       </DragDropContext>
 
-      {/* Modal */}
       {modal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-96">
@@ -300,7 +222,6 @@ const TaskBoard: React.FC = () => {
                 rows={3}
               />
             </div>
-
             <div className="mb-4">
               <label className="block text-sm font-medium mb-1">Status</label>
               <select
@@ -316,28 +237,18 @@ const TaskBoard: React.FC = () => {
                 ))}
               </select>
             </div>
-
             <div className="flex justify-end gap-2">
-              <button
-                className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
-                onClick={closeModal}
-              >
+              <Button variant="secondary" size="md" onClick={closeModal}>
                 Cancel
-              </button>
+              </Button>
               {modal.mode === "add" ? (
-                <button
-                  className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600"
-                  onClick={handleAddTask}
-                >
+                <Button size="md" onClick={handleAddTask}>
                   Add
-                </button>
+                </Button>
               ) : (
-                <button
-                  className="px-3 py-1 rounded bg-green-500 text-white hover:bg-green-600"
-                  onClick={handleEditTask}
-                >
+                <Button size="md" onClick={handleEditTask}>
                   Save
-                </button>
+                </Button>
               )}
             </div>
           </div>

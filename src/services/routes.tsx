@@ -6,8 +6,7 @@ import Dashboard from "../components/Dashboard";
 import MainLayout from "../components/layout/MainLayout";
 import Tasks from "../components/TaskBoard";
 import Settings from "../components/Settings";
-import { TaskProvider } from "../../../other data/context/TaskContext";
-import { ActivityLogProvider } from "../../../other data/context/ActivityLogContext";
+import { TaskProvider } from "../context/TaskContext";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +16,9 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <ActivityLogProvider>
-        <TaskProvider>
-          <MainLayout />
-        </TaskProvider>
-      </ActivityLogProvider>
+      <TaskProvider>
+        <MainLayout />
+      </TaskProvider>
     ),
     children: [
       {

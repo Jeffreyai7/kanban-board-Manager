@@ -16,7 +16,7 @@ const MainLayout = () => {
   }, [isMobile]);
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar
         isOpen={sidebarOpen}
         collapsed={collapsed}
@@ -30,10 +30,10 @@ const MainLayout = () => {
         <div
           className={`transition-all duration-300 ease-in-out ${
             isMobile
-              ? "ml-16"
+              ? "ml-14"
               : collapsed
               ? "ml-20" // When collapsed
-              : "ml-38" // When fully open
+              : "ml-36" // When fully open
           }`}
         >
           <Topbar />
