@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Plan new course",
+    "description": "Outline objectives, content, and assessments for the upcoming course.",
+    "status": "todo"
+  },
+  {
+    "id": "2",
+    "title": "Grade assignments",
+    "description": "Review and grade student submissions from the past week.",
+    "status": "inprogress"
+  },
+  {
+    "id": "3",
+    "title": "Prepare lecture",
+    "description": "Develop slides and talking points for the next lecture.",
+    "status": "needreview"
+  },
+  {
+    "id": "4",
+    "title": "Publish grades",
+    "description": "Finalize and release grades to students.",
+    "status": "done"
+  }
+]
