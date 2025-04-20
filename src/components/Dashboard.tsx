@@ -26,7 +26,6 @@ const Dashboard: React.FC = () => {
       counts[task.status] += 1;
     });
 
-    console.log("Updated status counts:", counts);
     return counts;
   }, [tasks]);
 

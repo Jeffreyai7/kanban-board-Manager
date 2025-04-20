@@ -1,11 +1,25 @@
 import React from "react";
-import { FaSearch } from "react-icons/fa";
 
-const SearchBar: React.FC = () => {
+interface SearchBarProps {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  onSelectTask: (taskId: string) => void;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({
+  searchTerm,
+  setSearchTerm,
+  // onSelectTask,
+}) => {
   return (
-    <div className="w-full max-w-md ml-auto flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-      <FaSearch size={14} className="fill-gray-400 font-medium" />
-      <input type="text" placeholder="Search" className="w-full outline-none" />
+    <div className="mb-4">
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search tasks..."
+        className="w-full p-2 rounded border border-gray-300"
+      />
     </div>
   );
 };

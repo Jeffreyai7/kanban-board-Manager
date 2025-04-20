@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { TaskStatus, Task } from "../types/types";
 import Button from "./Button";
 import { useTaskContext } from "../context/TaskContext";
+import SearchBar from "./layout/Topbar/Searchbar";
 
 const COLUMN_LABELS: Record<TaskStatus, string> = {
   todo: "To Do",
@@ -19,6 +20,8 @@ const COLUMN_LABELS: Record<TaskStatus, string> = {
 
 const TaskBoard: React.FC = () => {
   const { tasks, addTask, updateTask, deleteTask } = useTaskContext();
+  const taskRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
   const [modal, setModal] = useState<null | {
     mode: "add" | "edit";
     status?: TaskStatus;
@@ -34,6 +37,20 @@ const TaskBoard: React.FC = () => {
     description: "",
     status: "todo",
   });
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // Scroll into view handler
+  const scrollToTask = (taskId: string) => {
+    const el = taskRefs.current[taskId];
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("ring", "ring-blue-500");
+      setTimeout(() => {
+        el.classList.remove("ring", "ring-blue-500");
+      }, 2000);
+    }
+  };
 
   const openAddModal = (status: TaskStatus) => {
     setForm({ title: "", description: "", status });
@@ -107,22 +124,40 @@ const TaskBoard: React.FC = () => {
     });
   };
 
+  const filteredTasks = tasks.filter(
+    (task) =>
+      task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="p-6 bg-gray-100 dark:bg-black">
-      <h1 className="text-3xl font-bold mb-8 text-center dark:text-gray-100">
-        Kanban Board
-      </h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg font-bold mb-8 text-left dark:text-gray-100">
+          Hello Prince
+        </h1>
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          // tasks={tasks}
+          onSelectTask={scrollToTask}
+        />
+      </div>
+
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 space-y-7 justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 mx-auto xl:grid-cols-4 gap-4 space-y-7 justify-center items-center w-full">
           {Object.entries(COLUMN_LABELS).map(([status, label]) => {
-            const columnTasks = tasks.filter((t) => t.status === status);
+            // const columnTasks = tasks.filter((t) => t.status === status);
+            const columnTasks = filteredTasks.filter(
+              (t) => t.status === status
+            );
             return (
               <Droppable droppableId={status} key={status}>
                 {(provided, snapshot) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`bg-white rounded-lg shadow-md max-w-80 w-full flex flex-col p-4 min-h-[400px] transition ${
+                    className={`bg-gray-400 rounded-lg max-w-80 w-full flex flex-col p-4 min-h-[100px] transition mx-auto ${
                       snapshot.isDraggingOver ? "bg-blue-50" : ""
                     }`}
                   >
@@ -136,55 +171,63 @@ const TaskBoard: React.FC = () => {
                       </Button>
                     </div>
                     <div className="flex-1 space-y-3">
-                      {columnTasks.map((task, idx) => (
-                        <Draggable
-                          draggableId={task.id}
-                          index={idx}
-                          key={task.id}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`bg-gray-50 rounded p-3 shadow flex flex-col gap-2 border ${
-                                snapshot.isDragging
-                                  ? "border-blue-400 bg-blue-100"
-                                  : "border-gray-200"
-                              }`}
-                            >
-                              <div className="flex justify-between items-center">
-                                <h3 className="font-semibold text-sm text-violet-600 bg-violet-100 py-0.5 px-1 rounded-sm">
-                                  {task.title}
-                                </h3>
-                              </div>
-                              {task.description && (
-                                <div className="text-gray-600 text-sm">
-                                  {task.description}
-
-                                  <div className="flex justify-end gap-3 mt-2">
-                                    <Button
-                                      variant="edit"
-                                      size="xs"
-                                      onClick={() => openEditModal(task)}
-                                    >
-                                      Edit
-                                    </Button>
-
-                                    <Button
-                                      variant="delete"
-                                      size="xs"
-                                      onClick={() => handleDeleteTask(task.id)}
-                                    >
-                                      Delete
-                                    </Button>
-                                  </div>
+                      {columnTasks.length === 0 ? (
+                        <div className="text-white text-center text-sm italic">
+                          No tasks
+                        </div>
+                      ) : (
+                        columnTasks.map((task, idx) => (
+                          <Draggable
+                            draggableId={task.id}
+                            index={idx}
+                            key={task.id}
+                          >
+                            {(provided, snapshot) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className={`bg-gray-50 rounded p-3 shadow flex flex-col gap-2 border ${
+                                  snapshot.isDragging
+                                    ? "border-blue-400 bg-blue-100"
+                                    : "border-gray-200"
+                                }`}
+                              >
+                                <div className="flex justify-between items-center">
+                                  <h3 className="font-semibold text-sm text-violet-600 bg-violet-100 py-0.5 px-1 rounded-sm">
+                                    {task.title}
+                                  </h3>
                                 </div>
-                              )}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
+                                {task.description && (
+                                  <div className="text-gray-600 text-sm">
+                                    {task.description}
+
+                                    <div className="flex justify-end gap-3 mt-2">
+                                      <Button
+                                        variant="edit"
+                                        size="xs"
+                                        onClick={() => openEditModal(task)}
+                                      >
+                                        Edit
+                                      </Button>
+
+                                      <Button
+                                        variant="delete"
+                                        size="xs"
+                                        onClick={() =>
+                                          handleDeleteTask(task.id)
+                                        }
+                                      >
+                                        Delete
+                                      </Button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </Draggable>
+                        ))
+                      )}
                       {provided.placeholder}
                     </div>
                   </div>
