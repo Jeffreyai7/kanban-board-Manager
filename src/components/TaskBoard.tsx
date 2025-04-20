@@ -145,7 +145,7 @@ const TaskBoard: React.FC = () => {
       </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="grid grid-cols-1 md:grid-cols-2 mx-auto xl:grid-cols-4 gap-4 space-y-7 justify-center items-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 mx-auto xl:grid-cols-4 gap-4 space-y-7 justify-center w-full">
           {Object.entries(COLUMN_LABELS).map(([status, label]) => {
             // const columnTasks = tasks.filter((t) => t.status === status);
             const columnTasks = filteredTasks.filter(
@@ -189,8 +189,8 @@ const TaskBoard: React.FC = () => {
                                 {...provided.dragHandleProps}
                                 className={`bg-gray-50 rounded p-3 shadow flex flex-col gap-2 border ${
                                   snapshot.isDragging
-                                    ? "border-blue-400 bg-blue-100"
-                                    : "border-gray-200"
+                                    ? "border-blue-400 bg-blue-100 "
+                                    : "border-gray-100"
                                 }`}
                               >
                                 <div className="flex justify-between items-center">
