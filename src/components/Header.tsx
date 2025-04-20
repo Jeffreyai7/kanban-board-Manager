@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "./Logo";
+import Button from "./Button";
+import { BsMenuUp } from "react-icons/bs";
+// import ThemeToggle from "./ThemeToggle";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,14 +14,8 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="fixed bg-[#f9f9f9] max-h-20 h-full py-6 px-6 flex justify-between items-center shadow w-full">
-      <div className="flex gap-1 items-center">
-        <div className="flex gap-0.5 border border-gray-200 rounded p-1">
-          <div className="h-6 w-2 bg-blue-700 rounded"></div>
-          <div className="h-4 w-2 bg-blue-700 rounded"></div>
-        </div>
-        <p className="font-bold text-2xl">Kanban</p>
-      </div>
+    <header className="fixed left-0 right-0 mx-auto bg-primary-tint text- max-h-14 h-full py-2 px-8 flex justify-between items-center shadow max-w-7xl mt-3 w-full rounded-full z-50">
+      <Logo />
 
       {/* Desktop Nav */}
       <nav className="hidden md:flex">
@@ -26,7 +24,7 @@ const Header: React.FC = () => {
             <li key={index}>
               <a
                 href={`#${link.toLowerCase()}`}
-                className="font-medium text-lg hover:text-blue-600 transition-colors"
+                className="font-medium uppercase text-base tracking-wider hover:text-secondary hover:font-semibold transition-all duration-200"
               >
                 {link}
               </a>
@@ -37,44 +35,37 @@ const Header: React.FC = () => {
 
       {/* Desktop buttons */}
       <div className="hidden md:flex gap-4">
-        <button
+        <Button
           type="button"
+          variant="outline"
+          size="sm"
           onClick={() => navigate("/login")}
-          className="border border-blue-700 cursor-pointer rounded-2xl px-4 py-1 hover:bg-gray-100 transition-all duration-300"
         >
           Log in
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate("/sign-up")}
-          className="bg-blue-700 hover:bg-blue-900 border text-white border-blue-700 cursor-pointer rounded-2xl px-4 py-1 transition-all duration-300"
-        >
+        </Button>
+        <Button type="button" onClick={() => navigate("/sign-up")} size="sm">
           Sign Up
-        </button>
+        </Button>
       </div>
 
       {/* Hamburger Icon (Mobile) */}
       <button
         type="button"
-        className="md:hidden transition-all duration-300"
+        className="md:hidden text-primary text-4xl transition-all duration-300"
         onClick={toggleMenu}
         aria-label="Toggle menu"
       >
-        <div className="space-y-1">
-          <span className="block w-6 h-0.5 bg-blue-800"></span>
-          <span className="block w-6 h-0.5 bg-blue-800"></span>
-          <span className="block w-6 h-0.5 bg-blue-800"></span>
-        </div>
+        <BsMenuUp />
       </button>
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="absolute h-screen top-[70%] left-0 right-0 bg-[#f9f9f9] shadow-md p-6 flex flex-col items-center space-y-10 z-10 md:hidden transition-all duration-300">
+        <div className="absolute h-screen top-[85px] left-0 right-0 bg-primary-tint shadow-md p-6 flex flex-col items-center space-y-10 z-10 md:hidden transition-all duration-300">
           {["Features", "Pricing", "About"].map((link, index) => (
             <a
               key={index}
               href={`#${link.toLowerCase()}`}
-              className="text-lg font-medium text-gray-800 hover:text-blue-600"
+              className="font-medium uppercase text-lg hover:text-secondary hover:font-semibold transition-all duration-200"
               onClick={() => setIsOpen(false)}
             >
               {link}
@@ -82,20 +73,21 @@ const Header: React.FC = () => {
           ))}
 
           <div className="grid grid-cols-2 gap-3 w-full mt-10">
-            <button
+            <Button
               type="button"
+              variant="outline"
+              size="sm"
               onClick={() => navigate("/login")}
-              className="w-full border border-blue-600 rounded-2xl py-2 text-center"
             >
               Log in
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() => navigate("/sign-up")}
-              className="w-full bg-blue-600 text-white rounded-2xl py-2 text-center"
+              size="sm"
             >
               Sign Up
-            </button>
+            </Button>
           </div>
         </div>
       )}

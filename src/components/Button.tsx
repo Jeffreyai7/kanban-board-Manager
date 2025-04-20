@@ -12,7 +12,7 @@ type ButtonProps = {
 };
 
 const baseStyles =
-  "inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 focus:outline-none";
+  "inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 focus:outline-none cursor-pointer";
 
 const sizeStyles = {
   xs: "px-2 py-0.5 text-xs",
@@ -22,11 +22,11 @@ const sizeStyles = {
 };
 
 const variantStyles = {
-  primary: "bg-blue-500 text-white hover:bg-blue-600",
+  primary: "bg-primary text-white hover:bg-primary-dark",
   secondary:
-    "bg-gray-300 text-gray-800 hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600",
+    "bg-secondary text-white hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600",
   outline:
-    "border border-blue-600 text-blue-600 hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-blue-900",
+    "border border-primary text-primary hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-blue-900",
   delete:
     "bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-700 dark:text-white dark:hover:bg-red-600",
   edit: "bg-blue-100 text-blue-800 hover:bg-blue-200",

@@ -8,10 +8,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useTaskContext } from "../context/TaskContext";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const Dashboard: React.FC = () => {
   const { tasks } = useTaskContext();
-  console.log("Current tasks:", tasks);
 
   // Group tasks by status
   const statusCounts = useMemo(() => {
@@ -38,12 +38,27 @@ const Dashboard: React.FC = () => {
   ];
 
   const totalTasks = tasks.length;
+  const scrollStats = (direction: "left" | "right") => {
+    const container = document.getElementById("statScrollContainer");
+    if (container) {
+      const scrollAmount = 180; // match min-width + spacing
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen space-y-6">
-      <h1 className="text-3xl font-bold text-center">Dashboard Overview</h1>
+    <div className="p-6 bg-gray-100 min-h-screen space-y-2 md:space-y-6">
+      <h1 className="text-lg md:text-3xl font-bold text-center">
+        Dashboard Overview
+      </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div
+        id="statScrollContainer"
+        className="flex space-x-4 overflow-x-auto pb-2"
+      >
         <StatCard
           title="Total Tasks"
           value={totalTasks.toString()}
@@ -70,7 +85,21 @@ const Dashboard: React.FC = () => {
           color="bg-green-500"
         />
       </div>
-
+      {/* buttons */}
+      <div className="flex md:hidden justify-end gap-2 space-y-2.5">
+        <button
+          onClick={() => scrollStats("left")}
+          className="h-full px-2 bg-white shadow-md rounded-full"
+        >
+          <BsArrowLeft />
+        </button>
+        <button
+          onClick={() => scrollStats("right")}
+          className="h-full px-2 bg-white bg-opacity-80 shadow-md rounded-full"
+        >
+          <BsArrowRight />
+        </button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow p-4">
           <h2 className="text-lg font-semibold mb-4">Task Status Overview</h2>
@@ -123,9 +152,11 @@ const StatCard: React.FC<{ title: string; value: string; color: string }> = ({
   value,
   color,
 }) => (
-  <div className={`p-4 rounded-lg shadow text-white ${color}`}>
-    <p className="text-lg font-medium">{title}</p>
-    <p className="text-2xl font-bold">{value}</p>
+  <div
+    className={`p-4 snap-start rounded-lg shadow text-white min-w-36 w-full ${color}`}
+  >
+    <p className="text-sm md:text-lg font-medium">{title}</p>
+    <p className="text-sm md:text-2xl font-bold">{value}</p>
   </div>
 );
 

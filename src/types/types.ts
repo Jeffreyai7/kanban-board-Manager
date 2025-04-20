@@ -25,3 +25,10 @@ export interface TaskContextType {
   updateTask: (task: Task) => void;
   deleteTask: (id: string) => void;
 }
+
+export type NavItemProps = {
+  icon: React.ReactNode;
+  to: string;
+  label: string;
+  collapsed: boolean;
+};

@@ -1,100 +1,88 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { FiHome, FiMenu, FiCheckSquare, FiSettings } from "react-icons/fi";
+import { FiHome, FiCheckSquare, FiSettings } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { NavItem } from "./NavItem";
-
-const sidebarVariants = {
-  open: { width: 150 },
-  collapsed: { width: 80 },
-  closed: { width: 55 },
-};
+import {
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
 
 type SidebarProps = {
+  isMobile: boolean;
   isOpen: boolean;
   collapsed: boolean;
   onToggle: () => void;
   onClose: () => void;
 };
 
-const Sidebar = ({ isOpen, collapsed, onToggle, onClose }: SidebarProps) => {
-  const isSidebarVisible = isOpen || !collapsed;
+const navLinks = [
+  { label: "Dashboard", to: "/dashboard", icon: <FiHome /> },
+  { label: "Tasks", to: "/dashboard/tasks", icon: <FiCheckSquare /> },
+  { label: "Settings", to: "/dashboard/settings", icon: <FiSettings /> },
+];
+
+const Sidebar = ({
+  isMobile,
+  isOpen,
+  collapsed,
+  onToggle,
+  onClose,
+}: SidebarProps) => {
+  const location = useLocation();
+
+  // Auto close sidebar on route change (for mobile)
+  useEffect(() => {
+    if (isMobile) onClose();
+  }, [location.pathname]);
 
   return (
     <>
-      <motion.aside
-        initial={false}
-        animate={!isOpen ? "closed" : collapsed ? "collapsed" : "open"}
-        variants={sidebarVariants}
-        className="fixed inset-y-0 left-0 z-50 flex flex-col bg-white shadow-md transition-all"
+      {/* Overlay for mobile when sidebar is open */}
+      {isMobile && isOpen && (
+        <div className="fixed inset-0 z-30 bg-black/40" onClick={onClose}></div>
+      )}
+
+      <div
+        className={`${
+          isMobile
+            ? `fixed bottom-0 left-0 right-0 h-16 flex flex-row justify-around items-center bg-primary text-white z-40 border-t`
+            : `fixed top-0 left-0 h-full ${
+                collapsed ? "w-16" : "w-40"
+              } flex flex-col bg-primary text-white shadow-md z-40 transition-all duration-300`
+        }`}
       >
-        {/* Header with Logo and Toggle */}
-        <div className="flex h-16 items-center justify-between px-4">
-          {isSidebarVisible && (
-            <div className="flex items-center gap-2">
-              <div className="flex gap-0.5 border border-gray-200 rounded p-1">
-                <div className="h-5 w-1.5 bg-blue-700 rounded" />
-                <div className="h-3 w-1.5 bg-blue-700 rounded" />
-              </div>
-              {!collapsed && (
-                <p className="text-lg font-bold whitespace-nowrap hidden md:block">
-                  Kanban
-                </p>
-              )}
-            </div>
-          )}
-
-          <button
-            onClick={onToggle}
-            className="hidden md:block p-2 focus:outline-none"
-            aria-label="Toggle Sidebar"
-          >
-            <FiMenu size={20} />
-          </button>
-        </div>
-
-        {/* Navigation */}
-        <AnimatePresence>
-          {isSidebarVisible && (
-            <motion.nav
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex-1 space-y-1 p-2 overflow-y-auto"
+        {!isMobile && (
+          <div className="flex justify-end p-2">
+            <button
+              onClick={onToggle}
+              className="text-sm text-gray-500 hover:text-black"
+              title="Toggle sidebar"
             >
-              <NavItem
-                icon={<FiHome size={20} />}
-                to="/dashboard"
-                label="Overview"
-                collapsed={collapsed}
-              />
-              <NavItem
-                icon={<FiCheckSquare size={20} />}
-                to="/dashboard/tasks"
-                label="Tasks"
-                collapsed={collapsed}
-              />
-              <NavItem
-                icon={<FiSettings size={20} />}
-                to="/dashboard/settings"
-                label="Settings"
-                collapsed={collapsed}
-              />
-            </motion.nav>
-          )}
-        </AnimatePresence>
-      </motion.aside>
-
-      {/* Mobile Backdrop */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 z-40 bg-black/50 md:hidden"
-          />
+              {collapsed ? (
+                <MdOutlineKeyboardDoubleArrowRight />
+              ) : (
+                <MdOutlineKeyboardDoubleArrowLeft size={30} />
+              )}
+            </button>
+          </div>
         )}
-      </AnimatePresence>
+
+        <nav
+          className={`flex ${
+            isMobile ? "flex-row w-full justify-around" : "flex-col gap-2 p-4"
+          }`}
+        >
+          {navLinks.map((item) => (
+            <NavItem
+              key={item.to}
+              icon={item.icon}
+              to={item.to}
+              label={item.label}
+              collapsed={collapsed || isMobile}
+            />
+          ))}
+        </nav>
+      </div>
     </>
   );
 };

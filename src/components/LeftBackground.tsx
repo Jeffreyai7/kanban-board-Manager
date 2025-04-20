@@ -12,7 +12,7 @@ const LeftBackground = () => {
               className="leading-[49px] font-semibold text-[3rem]"
               style={{ fontFamily: "SF Pro Rounded, sans-serif" }}
             >
-              Kanban
+              TaskCraft
             </p>
           </div>
         </div>

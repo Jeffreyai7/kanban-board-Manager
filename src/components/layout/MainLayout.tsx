@@ -18,6 +18,7 @@ const MainLayout = () => {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar
+        isMobile={isMobile}
         isOpen={sidebarOpen}
         collapsed={collapsed}
         onToggle={() =>
@@ -26,14 +27,10 @@ const MainLayout = () => {
         onClose={() => setSidebarOpen(false)}
       />
 
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-auto">
         <div
           className={`transition-all duration-300 ease-in-out ${
-            isMobile
-              ? "ml-14"
-              : collapsed
-              ? "ml-20" // When collapsed
-              : "ml-36" // When fully open
+            isMobile ? "ml-0" : collapsed ? "ml-16" : "ml-40"
           }`}
         >
           <Topbar />

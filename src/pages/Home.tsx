@@ -1,22 +1,25 @@
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
-import monitor from "../assets/monitor-bg.png";
+import Button from "../components/Button";
+// import monitor from "../assets/monitor-bg.png";
 
 const Home: React.FC = () => {
   const year = new Date().getFullYear();
   return (
     <>
       <Header />
-      <main className="bg-[#f9f9f9]  pt-14">
-        <section className="max-w-[90%] w-full mx-auto py-16 grid grid-cols-1 md:grid-cols-2 items-center gap-3">
+      <main className="bg-primary text-white  pt-14 md:py-20">
+        {/* <section className="max-w-[90%] w-full mx-auto py-16 grid grid-cols-1 md:grid-cols-2 items-center gap-3 "> */}
+        <section className="max-w-[90%] min-h-[60vh] w-full mx-auto py-16 flex flex-col justify-center items-center ">
           <div className="text-center md:text-left pb-16 md:b-2">
-            <h1 className="text-3xl text-blue-800 md:text-5xl font-bold mb-5 leading-12">
-              From Chaos to Clarity
+            <h1 className="text-3xl md:text-7xl leading-24 text-center text-primary-tint max-w-[25ch] font-bold mb-5 ">
+              {/* From Chaos to Clarity */}
+              Seamless Task management for individuals
             </h1>
-            <p className="text-gray-800 capitalize">
-              Stop juggling sticky notes and clunky planners. TaskCraft helps
-              you create, track, and manage your to-dos with ease — and a little
-              bit of magic ✨.
+            <p className=" max-w-[80ch] text-center mx-auto">
+              In today's fast paced world, staying organized and on track can be
+              challenging. Taskcraft aims to provide a centralized solution just
+              for you.
             </p>
 
             <div className="md:max-w-[90%] mt-10 flex items-center flex-col md:flex-row gap-4">
@@ -27,30 +30,28 @@ const Home: React.FC = () => {
                 className="w-full h-full border rounded py-3 px-3 border-gray-300 outline-gray-300"
               />
               <Link to="/sign-up" className="md:max-w-[30%] w-full">
-                <button className="bg-blue-700 text-white text-sm rounded-2xl py-2 px-4 hover:bg-blue-900 cursor-pointer transition-all duration-300 ">
-                  Sign Up for free
-                </button>
+                <Button variant="secondary">Sign Up for free</Button>
               </Link>
             </div>
             <p className="transition-all duration-400 mt-4">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-blue-600 border-b border-b-blue-600 hover:border-none hover:text-blue-800"
+                className="text-tertiary border-b border-b-tertiary hover:border-none"
               >
                 Log in here
               </Link>
             </p>
           </div>
 
-          <div className="bg-[#f9f9f9]">
+          {/* <div className="bg-[#f9f9f9]">
             <img src={monitor} alt="monitor" loading="lazy" />
-          </div>
+          </div> */}
         </section>
 
         {/* next section */}
         <section className="py-10">
-          <h2 className="text-black/85 font-bold text-2xl md:text-4xl max-w-[40ch] mx-auto text-center md:leading-12 tracking-tighter px-4">
+          <h2 className="text-white font-bold text-2xl md:text-4xl max-w-[40ch] mx-auto text-center md:leading-12 tracking-tighter px-4">
             Stay organized, boost productivity, and manage tasks effortlessly
             with TaskCraft.
           </h2>
@@ -102,17 +103,17 @@ const Home: React.FC = () => {
         </section>
 
         {/* CTA section */}
-        <section className="bg-gray-600 max-w-6xl mx-auto mt-16 md:rounded-2xl min-h-5 py-16 px-4 md:px-10 flex flex-col justify-center items-center gap-10 text-center mb-0 md:mb-20">
-          <h4 className="text-white font-extrabold text-[1.8rem] tracking-wider md:text-4xl">
+        <section className="bg-white max-w-6xl mx-auto mt-16 md:rounded-2xl min-h-5 py-16 px-4 md:px-10 flex flex-col justify-center items-center gap-10 text-center">
+          <h4 className="text-primary font-extrabold text-[1.8rem] tracking-wider md:text-4xl">
             Ready to craft your day with clarity?
           </h4>
-          <p className="text-gray-100 font-normal text-lg tracking-wide">
+          <p className="text-primary font-normal text-lg tracking-wide">
             Start using TaskCraft today — it&apos;s free and takes less than 60
             seconds to set up.
           </p>
           <Link
             to="/sign=up"
-            className="border border-amber-400 py-4 px-7 bg-amber-400 rounded-2xl"
+            className=" py-4 px-7 bg-primary hover:opacity-65 rounded-2xl"
           >
             Get Started Now
           </Link>
@@ -124,10 +125,12 @@ const Home: React.FC = () => {
         <div className="p-4 grid grid-cols-1 md:grid-cols-7 gap-4">
           <div className="flex justify-center md:justify-start gap-1 items-center md:col-span-4">
             <div className="flex gap-0.5 border border-gray-200 rounded p-1">
-              <div className="h-6 w-2 bg-blue-700 rounded"></div>
-              <div className="h-4 w-2 bg-blue-700 rounded"></div>
+              <div className="h-4 w-1 bg-primary-tint rounded-sm"></div>
+              <div className="h-3 w-1 bg-primary-tint rounded-sm"></div>
             </div>
-            <p className="font-bold text-2xl text-gray-100">Kanban</p>
+            <p className="font-bold text-base tracking-wider text-white">
+              Task<span className="text-secondary uppercase">Craft</span>
+            </p>
           </div>
 
           {/* company */}

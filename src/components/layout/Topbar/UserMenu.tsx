@@ -27,7 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       <img
         src={user.avatar}
         alt="Avatar"
-        className="w-10 h-10 rounded-full cursor-pointer"
+        className="w-12 h-10 object-cover rounded-full cursor-pointer"
         onClick={() => setShowMenu(!showMenu)}
       />
       {showMenu && (
@@ -47,13 +47,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               <CiSettings className="text-sm text-gray-900" />
               <span>Settings</span>
             </Link>
-            <button
-              className="bg-red-100 w-full flex justify-center items-center gap-1 border border-red-200 rounded-lg px-4 py-2 hover:bg-red-200 text-sm text-red-800"
-              onClick={() => alert("Logged out")}
-            >
-              <CiLogout className="text-sm text-red-800" />
-              <span>Log out</span>
-            </button>
+            <Link to="/login">
+              <button className="bg-red-100 w-full flex justify-center items-center gap-1 border border-red-200 rounded-lg px-4 py-2 hover:bg-red-200 text-sm text-red-800">
+                <CiLogout className="text-sm text-red-800" />
+                <span>Log out</span>
+              </button>
+            </Link>
           </div>
         </div>
       )}
