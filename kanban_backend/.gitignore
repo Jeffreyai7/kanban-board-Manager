@@ -1,3 +1,1 @@
-SECRET_KEY=django-insecure-0c!i%rv_fv%4dr$*q2&^)+880jsrwiwv2c0k8u9j7ss#_6*f*l
-DEBUG=True
-ALLOWED_HOSTS=*
+.env
