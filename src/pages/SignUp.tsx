@@ -25,7 +25,7 @@ const SignUp = () => {
 
   return (
     <section className="flex flex-col w-full min-h-screen">
-      <div className="flex flex-col md:flex-row w-full h-screen shadow-lg  overflow-hidden">
+      <div className="flex flex-col md:flex-row w-full h-screen shadow-lg overflow-hidden">
         <LeftBackground />
         <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[480px] relative bg-white h-screen overflow-y-auto px-4">
           <div className="max-w-md mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-32 xl:mt-52">
