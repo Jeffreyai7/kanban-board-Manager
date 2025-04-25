@@ -23,7 +23,7 @@ const TaskBoard: React.FC = () => {
   const taskRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const [modal, setModal] = useState<null | {
-    mode: "add" | "edit";
+    mode: "add" | "edit" | "delete";
     status?: TaskStatus;
     task?: Task;
   }>(null);
@@ -66,6 +66,15 @@ const TaskBoard: React.FC = () => {
     setModal({ mode: "edit", task });
   };
 
+  const OpenDeleteModal = (task: Task) => {
+    setForm({
+      title: task.title,
+      description: task.description,
+      status: task.status,
+    });
+    setModal({ mode: "delete", task });
+  };
+
   const closeModal = () => setModal(null);
 
   const handleFormChange = (
@@ -104,6 +113,7 @@ const TaskBoard: React.FC = () => {
 
   const handleDeleteTask = (id: string) => {
     deleteTask(id);
+    closeModal();
   };
 
   const handleDragEnd = (result: DropResult) => {
@@ -214,9 +224,7 @@ const TaskBoard: React.FC = () => {
                                       <Button
                                         variant="delete"
                                         size="xs"
-                                        onClick={() =>
-                                          handleDeleteTask(task.id)
-                                        }
+                                        onClick={() => OpenDeleteModal(task)}
                                       >
                                         Delete
                                       </Button>
@@ -238,67 +246,107 @@ const TaskBoard: React.FC = () => {
         </div>
       </DragDropContext>
 
-      {modal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-            <h2 className="text-xl font-semibold mb-4">
-              {modal.mode === "add" ? "Add Task" : "Edit Task"}
-            </h2>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Title</label>
-              <input
-                type="text"
-                name="title"
-                className="w-full border rounded px-2 py-1"
-                value={form.title}
-                onChange={handleFormChange}
-                autoFocus
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">
-                Description
-              </label>
-              <textarea
-                name="description"
-                className="w-full border rounded px-2 py-1"
-                value={form.description}
-                onChange={handleFormChange}
-                rows={3}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Status</label>
-              <select
-                name="status"
-                className="w-full border rounded px-2 py-1"
-                value={form.status}
-                onChange={handleFormChange}
-              >
-                {Object.entries(COLUMN_LABELS).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="secondary" size="md" onClick={closeModal}>
-                Cancel
-              </Button>
-              {modal.mode === "add" ? (
-                <Button size="md" onClick={handleAddTask}>
-                  Add
+      {modal &&
+        (modal.mode === "delete" ? (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+              <h2 className="text-xl font-semibold mb-4">Delete Task</h2>
+              <p className="mb-4">
+                Are you sure you want to delete the task{" "}
+                <strong>{modal.task?.title}</strong>?
+              </p>
+              <div className="flex justify-end gap-2">
+                <Button variant="secondary" size="md" onClick={closeModal}>
+                  Cancel
                 </Button>
-              ) : (
-                <Button size="md" onClick={handleEditTask}>
-                  Save
+                <Button
+                  size="md"
+                  variant="delete"
+                  onClick={() => handleDeleteTask(modal.task?.id || "")}
+                >
+                  Delete
                 </Button>
-              )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        ) : (
+          // Add/Edit Modal
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+              <h2 className="text-xl font-semibold mb-4">
+                {modal.mode === "add" ? "Add Task" : "Edit Task"}
+              </h2>
+              <div className="mb-4">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium mb-1"
+                >
+                  Title
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  id="title"
+                  className="w-full border rounded px-2 py-1"
+                  value={form.title}
+                  onChange={handleFormChange}
+                  autoFocus
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium mb-1"
+                >
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  id="description"
+                  className="w-full border rounded px-2 py-1"
+                  value={form.description}
+                  onChange={handleFormChange}
+                  rows={3}
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="status"
+                  className="block text-sm font-medium mb-1"
+                >
+                  Status
+                </label>
+                <select
+                  name="status"
+                  id="status"
+                  className="w-full border rounded px-2 py-1"
+                  value={form.status}
+                  onChange={handleFormChange}
+                >
+                  {Object.entries(COLUMN_LABELS).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button variant="secondary" size="md" onClick={closeModal}>
+                  Cancel
+                </Button>
+                {modal.mode === "add" ? (
+                  <Button size="md" onClick={handleAddTask}>
+                    Add
+                  </Button>
+                ) : (
+                  <Button size="md" onClick={handleEditTask}>
+                    Save
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
     </div>
   );
 };

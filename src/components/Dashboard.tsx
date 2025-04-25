@@ -86,18 +86,18 @@ const Dashboard: React.FC = () => {
       </div>
       {/* buttons */}
       <div className="flex md:hidden justify-end gap-2 space-y-2.5">
-        <button
+        <span
           onClick={() => scrollStats("left")}
           className="h-full px-2 bg-white shadow-md rounded-full"
         >
           <BsArrowLeft />
-        </button>
-        <button
+        </span>
+        <span
           onClick={() => scrollStats("right")}
           className="h-full px-2 bg-white bg-opacity-80 shadow-md rounded-full"
         >
           <BsArrowRight />
-        </button>
+        </span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white rounded-lg shadow p-4">
