@@ -22,11 +22,11 @@ const sizeStyles = {
 };
 
 const variantStyles = {
-  primary: "bg-primary text-white hover:bg-primary-dark",
+  primary: "bg-primary text-white hover:opacity-80",
   secondary:
     "bg-secondary text-white hover:bg-gray-400 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600",
   outline:
-    "border border-primary text-primary hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-blue-900",
+    "border border-primary text-primary hover:opacity-80 dark:text-white",
   delete:
     "bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-700 dark:text-white dark:hover:bg-red-600",
   edit: "bg-blue-100 text-blue-800 hover:bg-blue-200",

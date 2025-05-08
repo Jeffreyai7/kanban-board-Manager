@@ -17,7 +17,7 @@ const MainLayout = () => {
   }, [isMobile]);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50 mt-[4.5rem]">
       <Sidebar
         isMobile={isMobile}
         isOpen={sidebarOpen}

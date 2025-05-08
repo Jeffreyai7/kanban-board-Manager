@@ -1,6 +1,5 @@
 import UserMenu from "./UserMenu";
 import { FaBell } from "react-icons/fa6";
-import Logo from "../../Logo";
 
 const Topbar: React.FC = () => {
   const user = {
@@ -11,9 +10,9 @@ const Topbar: React.FC = () => {
   };
 
   return (
-    <nav className="h-[70px] bg-gray-100 shadow-md px-6 py-3 flex justify-between items-center">
+    <nav className="fixed top-0 w-full right-0 h-[4.5rem] bg-gray-100 shadow-md px-6 py-3 flex justify-between items-center">
       <div>
-        <Logo />
+        <img src="/images/logo" alt="" />
       </div>
 
       <div className="flex items-center gap-4">
