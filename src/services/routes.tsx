@@ -8,6 +8,7 @@ import Tasks from "../components/TaskBoard";
 import Settings from "../components/Settings";
 import { TaskProvider } from "../context/TaskContext";
 
+
 const router = createBrowserRouter([
   {
     path: "/",

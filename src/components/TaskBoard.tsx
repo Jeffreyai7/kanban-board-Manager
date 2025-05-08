@@ -167,7 +167,7 @@ const TaskBoard: React.FC = () => {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`bg-gray-400 rounded-lg max-w-80 w-full flex flex-col p-4 min-h-[100px] transition mx-auto ${
+                    className={`border border-gray-300 rounded-lg max-w-80 w-full flex flex-col p-4 transition mx-auto ${
                       snapshot.isDraggingOver ? "bg-blue-50" : ""
                     }`}
                   >
@@ -182,7 +182,7 @@ const TaskBoard: React.FC = () => {
                     </div>
                     <div className="flex-1 space-y-3">
                       {columnTasks.length === 0 ? (
-                        <div className="text-white text-center text-sm italic">
+                        <div className="text-black text-center text-sm italic">
                           No tasks
                         </div>
                       ) : (
