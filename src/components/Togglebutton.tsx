@@ -1,8 +1,11 @@
-import useDarkMode from "./hooks/useDarkMode";
 import { Moon, Sun } from "lucide-react";
+import useDarkMode from "../hooks/useDarkMode";
 
-export default function App() {
-  const [darkMode, setDarkMode] = useDarkMode();
+export default function ToggleButton() {
+  const [darkMode, setDarkMode] = useDarkMode() as [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>
+  ];
 
   return (
     <div className="min-h-screen transition duration-300 bg-white text-black dark:bg-gray-900 dark:text-white flex flex-col items-center justify-center">

@@ -1,5 +1,11 @@
+import ToggleButton from "./Togglebutton";
+
 const Settings = () => {
-  return <div></div>;
+  return (
+    <div>
+      <ToggleButton />
+    </div>
+  );
 };
 
 export default Settings;

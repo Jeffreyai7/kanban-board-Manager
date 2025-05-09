@@ -141,11 +141,9 @@ const TaskBoard: React.FC = () => {
   );
 
   return (
-    <div className="p-6 bg-gray-100 dark:bg-black">
+    <div className="p-6 text-black bg-gray-10 bg-gray-100">
       <div className="flex justify-between items-center">
-        <h1 className="text-lg font-bold mb-8 text-left dark:text-gray-100">
-          Hello Prince
-        </h1>
+        <h1 className="text-lg font-bold mb-8 text-left ">Hello Prince</h1>
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
