@@ -1,4 +1,4 @@
-import ToggleButton from "./Togglebutton";
+import ToggleButton from "./ToggleButton";
 
 const Settings = () => {
   return (

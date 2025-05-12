@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen space-y-2 md:space-y-6">
-      <h1 className="text-lg md:text-3xl font-bold text-center">
+      <h1 className="text-lg md:text-3xl font-bold text-center text-black">
         Dashboard Overview
       </h1>
 

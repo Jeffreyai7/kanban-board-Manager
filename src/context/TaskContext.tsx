@@ -23,7 +23,8 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem("kanban-theme") as Theme) || "light";
+    const saved = (localStorage.getItem("kanban-theme") as Theme) || "light";
+    return saved;
   });
 
   useEffect(() => {
@@ -37,9 +38,29 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const toggleTheme = () => {
-    const newTheme: Theme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("kanban-theme", newTheme);
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("kanban-theme", theme);
+  }, [theme]);
+
+  const addTask = (task: Task) => {
+    setTasks((prev) => [...prev, task]);
+  };
+
+  const updateTask = (updated: Task) => {
+    setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
+  };
+
+  const deleteTask = (id: string) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
   return (
@@ -54,18 +75,6 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
       </ThemeContext.Provider>
     </TaskContext.Provider>
   );
-
-  function addTask(task: Task) {
-    setTasks((prev) => [...prev, task]);
-  }
-
-  function updateTask(updated: Task) {
-    setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
-  }
-
-  function deleteTask(id: string) {
-    setTasks((prev) => prev.filter((t) => t.id !== id));
-  }
 };
 
 export const useTaskContext = (): TaskContextType => {

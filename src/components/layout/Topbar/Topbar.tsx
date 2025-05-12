@@ -11,8 +11,8 @@ const Topbar: React.FC = () => {
 
   return (
     <nav className="fixed top-0 w-full right-0 h-[4.5rem] bg-gray-100 shadow-md px-6 py-3 flex justify-between items-center">
-      <div>
-        <img src="/images/logo" alt="" />
+      <div className="text-black">
+        {/* <img src="/images/logo" alt="" /> */}
       </div>
 
       <div className="flex items-center gap-4">

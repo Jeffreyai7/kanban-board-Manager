@@ -26,8 +26,8 @@ const SignUp = () => {
     <section className="flex flex-col w-full min-h-screen">
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg overflow-hidden">
         <LeftBackground />
-        <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[480px] relative bg-white h-screen overflow-y-auto px-4">
-          <div className="max-w-md mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-32 xl:mt-52">
+        <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[375px] relative bg-white h-screen overflow-y-auto pb-4 px-4">
+          <div className="max-w-md mx-auto mt-6 sm:mt-8 md:mt-16 lg:mt-24 xl:mt-32">
             <h1 className="text-[1.8rem] text-center leading-[36px] font-bold">
               Create your account
             </h1>
@@ -47,7 +47,6 @@ const SignUp = () => {
                   type="text"
                   id="fName"
                   name="fName"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.fName && (
@@ -68,76 +67,11 @@ const SignUp = () => {
                   type="text"
                   id="lName"
                   name="lName"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.lName && (
                   <p className="text-red-500 text-sm font-medium">
                     {errors.lName?.message}
-                  </p>
-                )}
-              </div>
-              <div className="mt-8">
-                <label
-                  htmlFor="address"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Address
-                </label>
-                <input
-                  {...register("address")}
-                  type="text"
-                  id="address"
-                  name="address"
-                  required
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-                {errors.address && (
-                  <p className="text-red-500 text-sm font-medium">
-                    {errors.address?.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-6">
-                <label
-                  htmlFor="state"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  State
-                </label>
-                <input
-                  {...register("state")}
-                  type="text"
-                  id="state"
-                  name="state"
-                  required
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-                {errors.state && (
-                  <p className="text-red-500 text-sm font-medium">
-                    {errors.state?.message}
-                  </p>
-                )}
-              </div>
-              <div className="mt-6">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Country
-                </label>
-                <input
-                  {...register("country")}
-                  type="text"
-                  id="country"
-                  name="country"
-                  required
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-                {errors.country && (
-                  <p className="text-red-500 text-sm font-medium">
-                    {errors.country?.message}
                   </p>
                 )}
               </div>
@@ -153,7 +87,6 @@ const SignUp = () => {
                   type="number"
                   id="phoneNumber"
                   name="phoneNumber"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.phoneNumber && (
@@ -174,7 +107,6 @@ const SignUp = () => {
                   type="email"
                   id="email"
                   name="email"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.email && (
@@ -195,7 +127,6 @@ const SignUp = () => {
                   type="password"
                   id="password"
                   name="password"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.password && (
@@ -216,7 +147,6 @@ const SignUp = () => {
                   type="confirm password"
                   id="confirmPassword"
                   name="confirmPassword"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.confirmPassword && (
