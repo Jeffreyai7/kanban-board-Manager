@@ -13,7 +13,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 
     def get_cleaned_data(self):
         data = super().get_cleaned_data()
-        data['phone_number'] = self.validated_data.get('phone_number', '')
+        data['phone_number'] = self.validated_data.get('phone_number', '') #email update
         return data
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -31,10 +31,14 @@ class SendCodeSerializer(serializers.ModelSerializer):
         fields = ('user_id', 'purpose')
 
     def create(self, validated_data):
-        user = User.objects.get(pk=validated_data['user_id'])
+        try:
+            user = User.objects.get(pk=validated_data['user_id'])
+        except User.DoesNotExist:
+            raise serializers.ValidationError({'user_id': 'User with this ID does not exist.'})
         # delete any old codes for the same purpose
         VerificationCode.objects.filter(user=user, purpose=validated_data['purpose']).delete()
         return VerificationCode.objects.create(user=user, purpose=validated_data['purpose'])
+    
     
 class VerifyCodeSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()

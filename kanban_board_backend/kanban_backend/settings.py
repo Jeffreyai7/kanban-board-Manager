@@ -175,3 +175,6 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {'access_type': 'online'},
     }
 }
+
+# Development email backend
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

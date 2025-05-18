@@ -19,7 +19,7 @@ class User(AbstractUser):
 class VerificationCode(models.Model):
     PURPOSE_CHOICES = [('email', 'email'), ('phone', 'phone')]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Renamed from 'username' to 'user'
     code = models.UUIDField(default=uuid.uuid4, editable=False)
     purpose = models.CharField(max_length=10, choices=PURPOSE_CHOICES)
     created = models.DateTimeField(auto_now_add=True)
@@ -28,7 +28,5 @@ class VerificationCode(models.Model):
         # Expires after 10 minutes
         return timezone.now() > (self.created + timedelta(minutes=10))
 
-
-
     def __str__(self):
-        return self.username
+        return f"{self.user.username} - {self.purpose} - {self.code}"
