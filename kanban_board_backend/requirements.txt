@@ -11,10 +11,15 @@ django-cors-headers==4.7.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
 idna==3.10
+iniconfig==2.1.0
 oauthlib==3.2.2
+packaging==25.0
+pluggy==1.5.0
 psycopg2-binary==2.9.10
 pycparser==2.22
 PyJWT==2.9.0
+pytest==8.3.5
+pytest-django==4.11.1
 python-decouple==3.8
 requests==2.32.3
 requests-oauthlib==2.0.0
