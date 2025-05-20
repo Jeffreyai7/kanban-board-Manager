@@ -1,0 +1,4 @@
+.env
+k_venv
+__pycache__/
+*.pyc
