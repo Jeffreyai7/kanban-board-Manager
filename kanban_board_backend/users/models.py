@@ -14,6 +14,11 @@ class User(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     is_email_verified = models.BooleanField(default=False)
     is_phone_verified = models.BooleanField(default=False)
+    email = models.EmailField(unique=True)
+    username = None
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
 
 class VerificationCode(models.Model):
@@ -29,4 +34,4 @@ class VerificationCode(models.Model):
         return timezone.now() > (self.created + timedelta(minutes=10))
 
     def __str__(self):
-        return f"{self.user.username} - {self.purpose} - {self.code}"
+        return f"{self.user.email} - {self.purpose} - {self.code}"

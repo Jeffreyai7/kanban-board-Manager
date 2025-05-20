@@ -129,6 +129,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = 'users.User'
+ACCOUNT_SIGNUP_FIELDS = ['email', 'fname', 'lname', 'password1', 'password2']
+ACCOUNT_LOGIN_METHODS = {'email'}
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
 
 
 # Internationalization
@@ -171,9 +176,9 @@ SIMPLE_JWT = {
 }
 
 # allauth configuration
-ACCOUNT_LOGIN_METHODS = {'username', 'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_LOGIN_METHODS = {'email',}
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'fname*', 'lname', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 SOCIAL_AUTH_GOOGLE_CLIENT_ID = config('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_CLIENT_SECRET = config('SOCIAL_AUTH_GOOGLE_CLIENT_SECRET')
@@ -186,4 +191,27 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Development email backend
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER =   config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'Your App Name <youremail@gmail.com>'
+
+
+
+
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
+    'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
+}
