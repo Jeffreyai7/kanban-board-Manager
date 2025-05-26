@@ -18,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Search tasks..."
-        className="w-full p-2 rounded border border-gray-300"
+        className="w-full p-2 rounded border border-gray-300 text-white"
       />
     </div>
   );
