@@ -1,5 +1,5 @@
 {
-  "compilerOptions": {
+ "compilerOptions": {
     "tsBuildInfoFile": "client/node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["client/src", "../other data/hooks", "client/src/context"]
+  "include": ["client/src",  "client/src/context"]
 }
