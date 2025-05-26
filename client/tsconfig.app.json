@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["client/src",  "client/src/context"]
+  "include": ["src",  "src/context"]
 }
