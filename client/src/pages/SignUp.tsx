@@ -78,70 +78,7 @@ const SignUp = () => {
                   </p>
                 )}
               </div>
-              <div className="mt-8">
-                <label
-                  htmlFor="address"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Address
-                </label>
-                <input
-                  {...register("address")}
-                  type="text"
-                  id="address"
-                  name="address"
-                  required
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-                {errors.address && (
-                  <p className="text-red-500 text-sm font-medium">
-                    {errors.address?.message}
-                  </p>
-                )}
-              </div>
 
-              <div className="mt-6">
-                <label
-                  htmlFor="state"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  State
-                </label>
-                <input
-                  {...register("state")}
-                  type="text"
-                  id="state"
-                  name="state"
-                  required
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-                {errors.state && (
-                  <p className="text-red-500 text-sm font-medium">
-                    {errors.state?.message}
-                  </p>
-                )}
-              </div>
-              <div className="mt-6">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Country
-                </label>
-                <input
-                  {...register("country")}
-                  type="text"
-                  id="country"
-                  name="country"
-                  required
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-                {errors.country && (
-                  <p className="text-red-500 text-sm font-medium">
-                    {errors.country?.message}
-                  </p>
-                )}
-              </div>
               <div className="mt-6">
                 <label
                   htmlFor="phoneNumber"
