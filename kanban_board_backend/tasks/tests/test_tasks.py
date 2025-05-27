@@ -8,8 +8,8 @@ User = get_user_model()
 
 class TaskTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', password='StrongPass123!')
-        self.client.login(username='testuser', password='StrongPass123!')
+        self.user = User.objects.create_user(email='testuser@example.com', password='StrongPass123!')
+        self.client.login(email='testuser@example.com', password='StrongPass123!')
         self.task_list_create_url = reverse('task-list-create')  # URL for listing and creating tasks
 
     def test_create_task(self):

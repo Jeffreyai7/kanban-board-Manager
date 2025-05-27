@@ -2,39 +2,50 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import LoginSerializer
-from .models import VerificationCode, User
-from django.conf import settings
+from .models import VerificationCode, CustomUser
 
 
 User = get_user_model()
 
 
 class CustomRegisterSerializer(RegisterSerializer):
-    fname = serializers.CharField(required=True)
-    lname = serializers.CharField(required=True)
+    fName = serializers.CharField(required=True)
+    lName = serializers.CharField(required=True)
     email = serializers.EmailField(required=True)
     phone_number = serializers.CharField(required=False)
-    username = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop('username', None)
+        raise Exception("SERIALIZER FILE IS LOADED")
+
+    def get_fields(self):
+        fields = super().get_fields()
+        fields.pop('username', None)
+        return fields
 
     def get_cleaned_data(self):
-        data = super().get_cleaned_data()
-        data.pop('username', None)
-        data['fname'] = self.validated_data.get('fname', '')
-        data['lname'] = self.validated_data.get('lname', '')
-        data['phone_number'] = self.validated_data.get('phone_number', '')
-        return data
+         return {
+            'email': self.validated_data.get('email', ''),
+            'password1': self.validated_data.get('password1', ''),
+            'fName': self.validated_data.get('fName', ''),
+            'lName': self.validated_data.get('lName', ''),
+            'phone_number': self.validated_data.get('phone_number', ''),
+        }
     
     def save(self, request):
+        print("CustomRegisterSerializer is being used!")
         user = super().save(request)
-        user.first_name = self.validated_data.get('fname', '')
-        user.last_name = self.validated_data.get('lname', '')
+        user.fName = self.validated_data.get('fName', '')
+        user.lName = self.validated_data.get('lName', '')
         user.phone_number = self.validated_data.get('phone_number', '')
         user.save()
+        print("CustomRegisterSerializer is being used!")
         return user
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('id','email','phone_number',
                   'is_email_verified','is_phone_verified')
         
@@ -48,8 +59,8 @@ class SendCodeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         try:
-            user = User.objects.get(pk=validated_data['user_id'])
-        except User.DoesNotExist:
+            user = CustomUser.objects.get(pk=validated_data['user_id'])
+        except CustomUser.DoesNotExist:
             raise serializers.ValidationError({'user_id': 'User with this ID does not exist.'})
         # delete any old codes for the same purpose
         VerificationCode.objects.filter(user=user, purpose=validated_data['purpose']).delete()
@@ -63,7 +74,6 @@ class VerifyCodeSerializer(serializers.Serializer):
 
 
 class CustomLoginSerializer(LoginSerializer):
-    username = None
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
 

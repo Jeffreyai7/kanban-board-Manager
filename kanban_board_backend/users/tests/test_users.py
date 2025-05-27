@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from django.contrib.auth import get_user_model
 from ..models import VerificationCode
+import unittest
 
 User = get_user_model()
 
@@ -11,9 +12,10 @@ class TestUsers(APITestCase):
         self.register_url = reverse('rest_register')
         self.login_url = reverse('rest_login')
         self.user_data = {
-            'fname': 'Test',
-            'lname': 'User',
+            'fName': 'Test',
+            'lName': 'User',
             'email': 'test@example.com',
+            'phone_number': '1234567890',         
             'password1': 'StrongPass123!',
             'password2': 'StrongPass123!',
         }
@@ -77,7 +79,7 @@ class TestUsers(APITestCase):
 
     def test_user_detail_authenticated(self):
         self.client.post(self.register_url, self.user_data)
-        login_data = {'email': 'test@example.com', 'password': 'StrongPass123!'}
+        login_data = {'email': 'test@example.com', 'password1': 'StrongPass123!'}
         login_response = self.client.post(self.login_url, login_data)
         token = login_response.data.get('access')
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
@@ -88,3 +90,7 @@ class TestUsers(APITestCase):
     def test_user_detail_unauthenticated(self):
         response = self.client.get(self.user_detail_url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+if __name__ == '__main__':
+    unittest.main()
