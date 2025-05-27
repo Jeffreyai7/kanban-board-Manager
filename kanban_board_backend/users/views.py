@@ -56,12 +56,13 @@ class VerifyCodeView(generics.GenericAPIView):
         ).first()
         if not code_obj or code_obj.is_expired():
             return Response({"detail": "Invalid or expired code"}, status=status.HTTP_400_BAD_REQUEST)
-        # mark verified
+        
         if code_obj.purpose == 'email':
             code_obj.user.is_email_verified = True
         else:
             code_obj.user.is_phone_verified = True
         code_obj.user.save()
+        code_obj.delete()
         return Response({"detail": "Verified"}, status=status.HTTP_200_OK)
 
 
