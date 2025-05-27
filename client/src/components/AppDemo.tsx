@@ -4,7 +4,7 @@ import { MoreHorizontal, User, Calendar, Clock } from "lucide-react";
 import { BOARD_COLUMNS, SAMPLE_TASKS } from "../constants";
 
 const AppDemo: React.FC = () => {
-  const [tasks, setTasks] = useState(SAMPLE_TASKS);
+  const [tasks, _setTasks] = useState(SAMPLE_TASKS);
 
   // Group tasks by column
   const tasksByColumn = BOARD_COLUMNS.reduce((acc, column) => {
