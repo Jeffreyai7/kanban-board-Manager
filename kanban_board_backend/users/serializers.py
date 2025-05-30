@@ -8,46 +8,40 @@ from .models import VerificationCode, CustomUser
 User = get_user_model()
 
 
-class CustomRegisterSerializer(RegisterSerializer):
-    fName = serializers.CharField(required=True)
-    lName = serializers.CharField(required=True)
+class CustomRegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
-    phone_number = serializers.CharField(required=False)
+    password1 = serializers.CharField(write_only=True,)
+    password2 = serializers.CharField(write_only=True,)
+    fName = serializers.CharField(max_length=30, required=True)
+    lName = serializers.CharField(max_length=30, required=False)
+    phone_number = serializers.CharField(max_length=20, required=False)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields.pop('username', None)
-        raise Exception("SERIALIZER FILE IS LOADED")
-
-    def get_fields(self):
-        fields = super().get_fields()
-        fields.pop('username', None)
-        return fields
-
-    def get_cleaned_data(self):
-         return {
-            'email': self.validated_data.get('email', ''),
-            'password1': self.validated_data.get('password1', ''),
-            'fName': self.validated_data.get('fName', ''),
-            'lName': self.validated_data.get('lName', ''),
-            'phone_number': self.validated_data.get('phone_number', ''),
-        }
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'password1', 'password2', 'fName', 'lName', 'phone_number']
     
-    def save(self, request):
-        print("CustomRegisterSerializer is being used!")
-        user = super().save(request)
-        user.fName = self.validated_data.get('fName', '')
-        user.lName = self.validated_data.get('lName', '')
-        user.phone_number = self.validated_data.get('phone_number', '')
+    def validate_email(self, value):
+        if CustomUser.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
+
+    def validate(self, data):
+        if data['password1'] != data['password2']:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
+
+    def create(self, validated_data):
+        validated_data.pop('password2')
+        password = validated_data.pop('password1')
+        user = CustomUser(**validated_data)
+        user.set_password(password)
         user.save()
-        print("CustomRegisterSerializer is being used!")
         return user
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id','email','phone_number',
-                  'is_email_verified','is_phone_verified')
+        fields = ('id','email','phone_number', 'fName', 'lName')
         
 class SendCodeSerializer(serializers.ModelSerializer):
     purpose = serializers.ChoiceField(choices=VerificationCode.PURPOSE_CHOICES)
@@ -71,11 +65,3 @@ class VerifyCodeSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     code = serializers.UUIDField()
     purpose = serializers.ChoiceField(choices=VerificationCode.PURPOSE_CHOICES)
-
-
-class CustomLoginSerializer(LoginSerializer):
-    email = serializers.EmailField(required=True)
-    password = serializers.CharField(required=True)
-
-    def validate(self, attrs):
-        return super().validate(attrs)
