@@ -33,7 +33,7 @@ const Sidebar = ({
   // Auto close sidebar on route change (for mobile)
   useEffect(() => {
     if (isMobile) onClose();
-  }, [location.pathname]);
+  }, [location.pathname, isMobile, onClose]);
 
   return (
     <>
@@ -45,17 +45,17 @@ const Sidebar = ({
       <div
         className={`${
           isMobile
-            ? `fixed bottom-0 left-0 right-0 h-16 flex flex-row justify-around items-center bg-primary text-white z-40 border-t`
+            ? `fixed bottom-0 left-0 right-0 h-16 flex flex-row justify-around items-center bg-primary text-white z-40`
             : `fixed top-0 left-0 h-full ${
                 collapsed ? "w-16" : "w-40"
               } flex flex-col bg-primary text-white shadow-md z-40 transition-all duration-300`
         }`}
       >
         {!isMobile && (
-          <div className="flex justify-end p-2">
+          <div className="flex justify-end">
             <button
               onClick={onToggle}
-              className="text-sm text-gray-500 hover:text-black"
+              className="text-sm text-gray-200 hover:text-gray-300"
               title="Toggle sidebar"
             >
               {collapsed ? (
@@ -69,7 +69,7 @@ const Sidebar = ({
 
         <nav
           className={`flex ${
-            isMobile ? "flex-row w-full justify-around" : "flex-col gap-2 p-4"
+            isMobile ? "flex-row w-full justify-around" : "flex-col mt-10"
           }`}
         >
           {navLinks.map((item) => (
