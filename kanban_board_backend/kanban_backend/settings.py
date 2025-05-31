@@ -14,12 +14,9 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 from datetime import timedelta
-<<<<<<< HEAD
-import pymysql
-pymysql.install_as_MySQLdb()
-=======
+# import pymysql
+# pymysql.install_as_MySQLdb()
 import sys
->>>>>>> 9a0cdc9 (Google login working)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -179,9 +176,7 @@ REST_FRAMEWORK = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
 }
-REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'users.serializers.CustomLoginSerializer',
-}
+
 REST_USE_JWT = True
 
 
@@ -216,7 +211,6 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # Development email backend
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
