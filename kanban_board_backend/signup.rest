@@ -1,3 +1,17 @@
+<<<<<<< HEAD
 POST http://localhost:8000/api/google-login/
 Content-Type: application/json
 
+=======
+POST http://localhost:8000/api/auth/registration/
+Content-Type: application/json
+
+{
+  "email": "prince@example.com",
+  "password1": "ThisisASecurePassword123!",
+  "password2": "ThisisASecurePassword123!",
+  "fName": "Prince",
+  "lName": "Kumar",
+  "phone_number": "+1234567890"
+}
+>>>>>>> bb038f94e59e16919964d3b7f0ece63927a7cd0d

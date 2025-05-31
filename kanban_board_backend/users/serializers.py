@@ -53,6 +53,8 @@ class SendCodeSerializer(serializers.ModelSerializer):
         try:
             user = CustomUser.objects.get(pk=validated_data['user_id'])
         except CustomUser.DoesNotExist:
+            user = CustomUser.objects.get(pk=validated_data['user_id'])
+        except CustomUser.DoesNotExist:
             raise serializers.ValidationError({'user_id': 'User with this ID does not exist.'})
         # delete any old codes for the same purpose
         VerificationCode.objects.filter(user=user, purpose=validated_data['purpose']).delete()

@@ -35,6 +35,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
     is_phone_verified = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -47,6 +49,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class VerificationCode(models.Model):
     PURPOSE_CHOICES = [('email', 'email'), ('phone', 'phone')]
 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     code = models.UUIDField(default=uuid.uuid4, editable=False)
     purpose = models.CharField(max_length=10, choices=PURPOSE_CHOICES)

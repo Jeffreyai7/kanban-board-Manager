@@ -20,7 +20,14 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('api/', include('tasks.urls', namespace='tasks')),
      path('api/', include('users.urls', namespace='users')),
+=======
+    path('api/tasks', include('tasks.urls', namespace='tasks')),
+     path('api/users/', include('users.urls', namespace='users')),
+    path('api/auth/', include('dj_rest_auth.urls', )),
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls', )),
+>>>>>>> bb038f94e59e16919964d3b7f0ece63927a7cd0d
    
 ]

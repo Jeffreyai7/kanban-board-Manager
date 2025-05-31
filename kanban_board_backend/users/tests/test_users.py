@@ -87,6 +87,7 @@ class TestUsers(APITestCase):
 
     def test_user_detail_authenticated(self):
         self.client.post(self.register_url, self.user_data)
+<<<<<<< HEAD
         user = User.objects.get(email='test@example.com')
         code_obj = VerificationCode.objects.filter(user=user, purpose='email').first()
         verify_data = {
@@ -96,6 +97,9 @@ class TestUsers(APITestCase):
         }
         self.client.post(self.verify_code_url, verify_data)
         login_data = {'email': 'test@example.com', 'password': 'StrongPass123!'}
+=======
+        login_data = {'email': 'test@example.com', 'password1': 'StrongPass123!'}
+>>>>>>> bb038f94e59e16919964d3b7f0ece63927a7cd0d
         login_response = self.client.post(self.login_url, login_data)
         token = login_response.data.get('access')
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
