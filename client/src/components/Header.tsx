@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from 'lucide-react';
-import { NAV_LINKS } from '../constants';
+import { Menu, X } from "lucide-react";
+import { NAV_LINKS } from "../constants";
 // import Button from "./Button";
 
 const Header: React.FC = () => {
@@ -13,29 +13,32 @@ const Header: React.FC = () => {
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white dark:bg-gray-900 dark:shadow-gray-800 shadow-md py-3' 
-          : 'bg-transparent py-5'
+        isScrolled
+          ? "bg-white dark:bg-gray-900 dark:shadow-gray-800 shadow-md py-3"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
-          
-      <Link to="/" className="w-20">
-        <img src="/images/logo.png" alt="Logo" className="w-full relative z-50" />
-      </Link>
-          
+          <Link to="/" className="w-20">
+            <img
+              src="/images/logo.png"
+              alt="Logo"
+              className="w-full relative z-50"
+            />
+          </Link>
+
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {NAV_LINKS.map((link) => (
-              <a 
+              <a
                 key={link.name}
                 href={link.href}
                 className="text-gray-900 dark:text-gray-200 hover:text-[#2B3089] dark:hover:text-[#1D9EE2] font-medium transition-colors"
@@ -46,33 +49,35 @@ const Header: React.FC = () => {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="login" 
+            <Link
+              to="login"
               className="text-gray-900  dark:text-gray-200 hover:text-[#2B3089] dark:hover:text-[#1D9EE2] font-medium transition-colors"
             >
               Log in
             </Link>
-            <Link to="sign-up" 
+            <Link
+              to="sign-up"
               className="bg-[#2B3089] dark:bg-[#1D9EE2] text-white px-5 py-2 rounded-lg hover:bg-[#1D9EE2] dark:hover:bg-[#2B3089] transition-colors duration-300 font-medium"
             >
-             Sign up
+              Sign up
             </Link>
           </div>
-          
+
           {/* Mobile menu button */}
-          <button 
+          <button
             className="relative z-50 md:hidden text-gray-900 dark:text-gray-200 transition-all duration-300 ease-in-out"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-        
+
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden absolute z-30 top-0 h-screen left-0 right-0 bg-white dark:bg-gray-900 text-white shadow-lg dark:shadow-gray-800 py-[30%] px-4 transition-all duration-300 ease-in-out">
             <nav className="flex flex-col space-y-4">
               {NAV_LINKS.map((link) => (
-                <a 
+                <a
                   key={link.name}
                   href={link.href}
                   className="text-gray-900 dark:text-gray-200 hover:text-[#2B3089] dark:hover:text-[#1D9EE2] font-medium py-2 transition-colors"
@@ -82,18 +87,18 @@ const Header: React.FC = () => {
                 </a>
               ))}
               <div className="pt-2 flex flex-col space-y-3">
-                <a 
-                  href="#login" 
+                <Link
+                  to="login"
                   className="text-gray-900 dark:text-gray-200 hover:text-[#2B3089] dark:hover:text-[#1D9EE2] font-medium py-2 transition-colors"
                 >
                   Log in
-                </a>
-                <a 
-                  href="#signup" 
+                </Link>
+                <Link
+                  to="sign-up"
                   className="bg-[#2B3089] dark:bg-[#1D9EE2] text-white px-5 py-3 rounded-lg text-center hover:bg-[#1D9EE2] dark:hover:bg-[#2B3089] transition-colors duration-300 font-medium"
                 >
                   Get Started
-                </a>
+                </Link>
               </div>
             </nav>
           </div>
