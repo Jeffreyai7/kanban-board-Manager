@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { z, ZodError } from "zod";
+import { ZodError } from "zod";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { v4 as uuidv4 } from "uuid";
 import { TaskStatus, Task } from "../../types/types";
-import Button from "../Button";
 import { useTaskContext } from "../../context/TaskContext";
 import { useOutletContext } from "react-router-dom";
 import Column from "./Column";
@@ -18,7 +17,10 @@ const COLUMN_LABELS: Record<TaskStatus, string> = {
 };
 
 const TaskBoard: React.FC = () => {
-  const { tasks, addTask, updateTask, deleteTask } = useTaskContext();
+  // const { tasks, addTask, updateTask, deleteTask } = useTaskContext();
+  const { tasks, addTask, updateTask, deleteTask, searchTerm } =
+    useTaskContext();
+  // const { searchTerm } = useOutletContext<{ searchTerm: string }>();
   const { taskRefs } = useOutletContext<{
     taskRefs: React.RefObject<Record<string, HTMLDivElement | null>>;
   }>();
@@ -40,8 +42,6 @@ const TaskBoard: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<{ title?: string }>({});
-
-  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const openAddModal = (status: TaskStatus) => {
     setForm({ title: "", description: "", status });

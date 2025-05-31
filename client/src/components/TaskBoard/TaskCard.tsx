@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
+import { DraggableProvided, DraggableStateSnapshot } from "@hello-pangea/dnd";
 import { Task } from "../../types/types";
 import Button from "../Button";
 
@@ -20,12 +21,6 @@ const TaskCard: React.FC<TaskCardProps> = ({
   taskRef,
 }) => {
   const localRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (taskRef && localRef.current) {
-      taskRef(localRef.current);
-    }
-  }, [taskRef]);
 
   return (
     <div
@@ -64,49 +59,3 @@ const TaskCard: React.FC<TaskCardProps> = ({
 };
 
 export default TaskCard;
-
-// import Button from "../Button";
-
-// const TaskCard = ({ task }) => {
-//   return (
-//     <div
-//       ref={provided.innerRef}
-//       {...provided.draggableProps}
-//       {...provided.dragHandleProps}
-//       className={`bg-gray-50 rounded p-3 shadow flex flex-col gap-2 border ${
-//         snapshot.isDragging ? "border-blue-400 bg-blue-100 " : "border-gray-100"
-//       }`}
-//     >
-//       <div className="flex justify-between items-center">
-//         <h3 className="font-semibold text-sm text-violet-600 bg-violet-100 py-0.5 px-1 rounded-sm">
-//           {task.title}
-//         </h3>
-//       </div>
-//       {task.description && (
-//         <div className="text-gray-600 text-sm">
-//           {task.description}
-
-//           <div className="flex justify-end gap-3 mt-2">
-//             <Button
-//               variant="edit"
-//               size="xs"
-//               onClick={() => openEditModal(task)}
-//             >
-//               Edit
-//             </Button>
-
-//             <Button
-//               variant="delete"
-//               size="xs"
-//               onClick={() => OpenDeleteModal(task)}
-//             >
-//               Delete
-//             </Button>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default TaskCard;
