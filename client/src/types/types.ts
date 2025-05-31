@@ -19,12 +19,20 @@ export interface User {
   avatar: string;
 }
 
-export interface TaskContextType {
+// export interface TaskContextType {
+//   tasks: Task[];
+//   addTask: (task: Task) => void;
+//   updateTask: (task: Task) => void;
+//   deleteTask: (id: string) => void;
+// }
+export type TaskContextType = {
   tasks: Task[];
   addTask: (task: Task) => void;
   updateTask: (task: Task) => void;
   deleteTask: (id: string) => void;
-}
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+};
 
 export type NavItemProps = {
   icon: React.ReactNode;
