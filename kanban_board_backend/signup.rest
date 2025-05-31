@@ -1,6 +1,3 @@
 POST http://localhost:8000/api/google-login/
 Content-Type: application/json
 
-{
-  "access_token": "ya29.a0AW4Xtxi6oHtBcc3sHjYD4SW7q1QvF_hCNXLoCpBKxfJlSt28VJscwd4dWpW6Sfz3SemNwsFb8CKKyINHhXtP2ILNv6PNxPbCNY5sh7Ya3kXsOSaqRZQ4WXxHhwTqMoFC-PoEPP7Zo2uQCsVss4UTQGwdLQXnzczzlqBXcfgraCgYKARMSARYSFQHGX2Mic0_rdSJPhasdoco4f23oiA0175"
-}
