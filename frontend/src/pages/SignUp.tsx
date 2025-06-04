@@ -3,6 +3,8 @@ import LeftBackground from "../components/LeftBackground";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "../lib/utils";
+import { Input } from "../components/ui/Input";
+import { Mail, Phone, User } from "lucide-react";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ const SignUp = () => {
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg overflow-hidden">
         <LeftBackground />
         <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[480px] relative bg-white h-screen overflow-y-auto px-4">
-          <div className="max-w-md mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-32 xl:mt-52">
+          <div className="max-w-md mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-24 xl:mt-32">
             <h1 className="text-[1.8rem] text-center leading-[36px] font-bold">
               Create your account
             </h1>
@@ -42,7 +44,7 @@ const SignUp = () => {
                 >
                   First Name
                 </label>
-                <input
+                <Input
                   {...register("fName")}
                   type="text"
                   id="fName"
@@ -63,7 +65,7 @@ const SignUp = () => {
                 >
                   Last Name
                 </label>
-                <input
+                <Input
                   {...register("lName")}
                   type="text"
                   id="lName"
@@ -85,7 +87,8 @@ const SignUp = () => {
                 >
                   Phone Number
                 </label>
-                <input
+                <Input
+                  icon={<Phone width={16} height={16} />}
                   {...register("phoneNumber")}
                   type="number"
                   id="phoneNumber"
@@ -106,7 +109,8 @@ const SignUp = () => {
                 >
                   Email
                 </label>
-                <input
+                <Input
+                  icon={<Mail width={16} height={16} />}
                   {...register("email")}
                   type="email"
                   id="email"
@@ -127,7 +131,8 @@ const SignUp = () => {
                 >
                   Password
                 </label>
-                <input
+                <Input
+                  variant="password"
                   {...register("password")}
                   type="password"
                   id="password"
@@ -148,7 +153,8 @@ const SignUp = () => {
                 >
                   Confirm Password
                 </label>
-                <input
+                <Input
+                  variant="password"
                   {...register("confirmPassword")}
                   type="confirm password"
                   id="confirmPassword"
@@ -174,7 +180,7 @@ const SignUp = () => {
                 {isSubmitting ? "Creating account..." : "Create account"}
               </button>
             </form>
-            <p className="mt-4 text-sm text-center text-gray-500">
+            <p className="my-4 text-sm text-center text-gray-500">
               Already have an account?{" "}
               <span
                 onClick={() => navigate("/login")}
