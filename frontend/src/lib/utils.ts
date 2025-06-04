@@ -1,4 +1,10 @@
-import { z } from "zod";
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { z } from 'zod';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 export const signUpSchema = z.object({
   fName: z.string().min(3, "first name must be 3 characters or more"),

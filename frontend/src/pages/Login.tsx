@@ -8,6 +8,8 @@ import {
   CredentialResponse,
   GoogleOAuthProvider,
 } from "@react-oauth/google";
+import { Input } from "../components/ui/Input";
+import { Mail } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const Login = () => {
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg  overflow-hidden">
         <LeftBackground />
         <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[480px] relative bg-white h-screen overflow-y-auto px-4">
-          <div className="max-w-md mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-32 xl:mt-52">
+          <div className="max-w-md mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-24 xl:mt-32">
             <h1 className="text-[1.8rem] text-center leading-[36px] font-bold">
               Log in to your account
             </h1>
@@ -57,12 +59,14 @@ const Login = () => {
                 >
                   Email address
                 </label>
-                <input
+                <Input
+                  variant="default"
+                  icon={<Mail className="w-5 h-5 text-gray-500" />}
                   {...register("email")}
                   type="email"
                   id="email"
                   name="email"
-                  required
+                  placeholder="Enter your email"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.email && (
@@ -79,7 +83,9 @@ const Login = () => {
                 >
                   Password
                 </label>
-                <input
+                <Input
+                  variant="password"
+                  placeholder="Enter your password"
                   {...register("password")}
                   type="password"
                   id="password"
@@ -116,7 +122,7 @@ const Login = () => {
                 </span>
               </p>
             </div>
-            <div className="w-full text-white font-medium py-3 rounded-md hover:bg-[rgb(253,130,64, 0.5)] transition cursor-pointer">
+            <div className="w-full mb-4 text-white font-medium py-3 rounded-md hover:bg-[rgb(253,130,64, 0.5)] transition cursor-pointer">
               <GoogleOAuthProvider
                 clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
               >
