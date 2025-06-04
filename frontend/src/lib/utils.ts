@@ -22,3 +22,9 @@ export const loginSchema = z.object({
   email: z.string().email("invalid email address"),
   password: z.string().min(6, "password must be 6 characters or more"),
 });
+
+export const taskFormSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional(),
+  status: z.enum(["todo", "inprogress", "needreview", "done"]),
+});

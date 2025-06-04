@@ -1,16 +1,72 @@
-from django.contrib.auth import get_user_model
+from rest_framework.views import APIView
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 from .models import VerificationCode
-from .serializers import SendCodeSerializer, VerifyCodeSerializer, UserDetailSerializer
+from .serializers import CustomRegisterSerializer, SendCodeSerializer, VerifyCodeSerializer, UserDetailSerializer
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.conf import settings
 
 
+class RegisterView(APIView):
+    permission_classes = [permissions.AllowAny]
 
-User = get_user_model()
+    def post(self, request):
+        serializer = CustomRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            code_obj = VerificationCode.objects.create(
+                user=user,
+                purpose='email'
+            )
+            user.email_user(
+                subject="Verify your email",
+                message=f"Your verification code is: {code_obj.code}"
+            )
+            return Response({
+                'message': 'User created successfully. Please verify your email before logging in.',
+                'user_id': user.id
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class LoginView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        email = request.data.get("email")
+        password = request.data.get("password")
+        user = authenticate(email=email, password=password)
+
+        if user:
+            if not user.is_email_verified:
+                return Response(
+                    {"detail": "Please verify your email before logging in."},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            }, status=status.HTTP_200_OK)
+        return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+    
+
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        print("Logout request data:", request.data)
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"detail": "Successfully logged out"}, status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserDetailView(generics.RetrieveAPIView):
     serializer_class = UserDetailSerializer
@@ -18,6 +74,8 @@ class UserDetailView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+    
+
 
 class SendCodeView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]

@@ -4,10 +4,9 @@ import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
 import Dashboard from "../components/Dashboard";
 import MainLayout from "../components/layout/MainLayout";
-import Tasks from "../components/TaskBoard";
 import Settings from "../components/Settings";
 import { TaskProvider } from "../context/TaskContext";
-
+import TaskBoard from "../components/TaskBoard";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: "tasks", // /dashboard/tasks
-        element: <Tasks />,
+        element: <TaskBoard />,
       },
       {
         path: "settings", // /dashboard/settings

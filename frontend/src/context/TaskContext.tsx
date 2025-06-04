@@ -8,23 +8,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
-
-  // useEffect(() => {
-  //   const stored = localStorage.getItem("kanban-tasks");
-  //   if (stored) {
-  //     setTasks(JSON.parse(stored));
-  //   } else {
-  //     fetch("/data/data.json")
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setTasks(data);
-  //         localStorage.setItem("kanban-tasks", JSON.stringify(data));
-  //       });
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   localStorage.setItem("kanban-tasks", JSON.stringify(tasks));
-  // }, [tasks]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     fetch("/data/data.json")
@@ -48,7 +32,16 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
     setTasks((prev) => prev.filter((t) => t.id !== id));
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, updateTask, deleteTask }}>
+    <TaskContext.Provider
+      value={{
+        tasks,
+        addTask,
+        updateTask,
+        deleteTask,
+        searchTerm,
+        setSearchTerm,
+      }}
+    >
       {children}
     </TaskContext.Provider>
   );

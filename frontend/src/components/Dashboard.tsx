@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useTaskContext } from "../context/TaskContext";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+// import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
 const Dashboard: React.FC = () => {
   const { tasks } = useTaskContext();
@@ -37,21 +37,22 @@ const Dashboard: React.FC = () => {
   ];
 
   const totalTasks = tasks.length;
-  const scrollStats = (direction: "left" | "right") => {
-    const container = document.getElementById("statScrollContainer");
-    if (container) {
-      const scrollAmount = 180; // match min-width + spacing
-      container.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+  // const scrollStats = (direction: "left" | "right") => {
+  //   const container = document.getElementById("statScrollContainer");
+  //   if (container) {
+  //     const scrollAmount = 180; // match min-width + spacing
+  //     container.scrollBy({
+  //       left: direction === "left" ? -scrollAmount : scrollAmount,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // };
+  const userName = "Prince";
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen space-y-2 md:space-y-6">
-      <h1 className="text-lg md:text-3xl font-bold text-center">
-        Dashboard Overview
+    <div className="p-6 bg-gray-100 dark:bg-primary min-h-screen space-y-2 md:space-y-6">
+      <h1 className="text-lg md:text-2xl font-semibold text-primary dark:text-gray-100">
+        <span>{`${userName}'s`}</span> Dashboard Overview
       </h1>
 
       <div
@@ -85,7 +86,7 @@ const Dashboard: React.FC = () => {
         />
       </div>
       {/* buttons */}
-      <div className="flex md:hidden justify-end gap-2 space-y-2.5">
+      {/* <div className="flex md:hidden justify-end gap-2 space-y-2.5">
         <span
           onClick={() => scrollStats("left")}
           className="h-full px-2 bg-white shadow-md rounded-full"
@@ -98,10 +99,12 @@ const Dashboard: React.FC = () => {
         >
           <BsArrowRight />
         </span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow p-4">
-          <h2 className="text-lg font-semibold mb-4">Task Status Overview</h2>
+      </div> */}
+      <div className="grid grid-cols-1 md:grid-cols-[70fr_20fr] gap-6">
+        <div className="bg-white dark:bg-gray-300 rounded-lg shadow p-4">
+          <h2 className="text-lg text-gray-800 font-semibold mb-4">
+            Task Status Overview
+          </h2>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={chartData}>
               <XAxis dataKey="name" />
@@ -111,20 +114,32 @@ const Dashboard: React.FC = () => {
             </BarChart>
           </ResponsiveContainer>
         </div>
-
-        <div className="bg-white rounded-lg shadow p-4">
-          <h2 className="text-lg font-semibold mb-4">Recent Tasks</h2>
-          <ul className="space-y-3 text-sm text-gray-700">
-            {tasks
-              .slice(-4)
-              .reverse()
-              .map((task) => (
-                <li key={task.id} className="border-b pb-2">
-                  {statusEmoji(task.status)} {task.status}: {task.title}
-                </li>
-              ))}
-          </ul>
-        </div>
+        {tasks && (
+          <div className="p-4">
+            <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-100">
+              Recent Tasks
+            </h2>
+            <ul className="space-y-3 text-sm text-gray-700 dark:text-gray-100">
+              {/* {tasks
+                .slice(-4)
+                .reverse()
+                .map((task) => (
+                  <li key={task.id} className="border-b pb-2">
+                    {statusEmoji(task.status)} {task.status}: {task.title}
+                  </li>
+                ))} */}
+              {tasks
+                .slice(-4)
+                .reverse()
+                .map((task) => (
+                  <li>
+                    {statusEmoji(task.status)} {statusTitle(task.status)}:{" "}
+                    {task.title}
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -143,6 +158,22 @@ const statusEmoji = (status: string) => {
       return "📌";
     default:
       return "🗂️";
+  }
+};
+
+// Helper to render title
+const statusTitle = (status: string) => {
+  switch (status) {
+    case "done":
+      return "Done";
+    case "inprogress":
+      return "In progress";
+    case "todo":
+      return "To do";
+    case "needreview":
+      return "Need review";
+    default:
+      return "Todo";
   }
 };
 
