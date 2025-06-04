@@ -45,11 +45,11 @@ const SignUp = () => {
                   First Name
                 </label>
                 <Input
+                  icon={<User width={16} height={16} />}
                   {...register("fName")}
                   type="text"
                   id="fName"
                   name="fName"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.fName && (
@@ -66,11 +66,11 @@ const SignUp = () => {
                   Last Name
                 </label>
                 <Input
+                  icon={<User width={16} height={16} />}
                   {...register("lName")}
                   type="text"
                   id="lName"
                   name="lName"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.lName && (
@@ -93,7 +93,6 @@ const SignUp = () => {
                   type="number"
                   id="phoneNumber"
                   name="phoneNumber"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.phoneNumber && (
@@ -115,7 +114,6 @@ const SignUp = () => {
                   type="email"
                   id="email"
                   name="email"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.email && (
@@ -137,7 +135,6 @@ const SignUp = () => {
                   type="password"
                   id="password"
                   name="password"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.password && (
@@ -159,7 +156,6 @@ const SignUp = () => {
                   type="confirm password"
                   id="confirmPassword"
                   name="confirmPassword"
-                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
                 {errors.confirmPassword && (
