@@ -29,7 +29,7 @@ const SignUp = () => {
       <div className="flex flex-col md:flex-row w-full h-screen shadow-lg overflow-hidden">
         <LeftBackground />
         <div className="w-full md:w-1/2 min-w-0 sm:min-w-[360px] md:min-w-[480px] relative bg-white h-screen overflow-y-auto px-4">
-          <div className="max-w-md mx-auto mt-8 sm:mt-12 md:mt-16 lg:mt-24 xl:mt-32">
+          <div className="max-w-md mx-auto mt-10">
             <h1 className="text-[1.8rem] text-center leading-[36px] font-bold">
               Create your account
             </h1>
@@ -176,7 +176,7 @@ const SignUp = () => {
                 {isSubmitting ? "Creating account..." : "Create account"}
               </button>
             </form>
-            <p className="my-4 text-sm text-center text-gray-500">
+            <p className="mt-4 mb-10 text-sm text-center text-gray-500">
               Already have an account?{" "}
               <span
                 onClick={() => navigate("/login")}
