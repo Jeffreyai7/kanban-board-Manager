@@ -76,6 +76,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React dev server
+    "https://kanban-board-manager.vercel.app/"
 ]
 
 
