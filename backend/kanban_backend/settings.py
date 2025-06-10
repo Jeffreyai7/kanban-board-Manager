@@ -133,8 +133,6 @@ ACCOUNT_SIGNUP_FIELDS = ['email', 'fName', 'lName', 'phone_number', 'password1',
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
-# ACCOUNT_USERNAME_REQUIRED = False
 
 
 # Internationalization
