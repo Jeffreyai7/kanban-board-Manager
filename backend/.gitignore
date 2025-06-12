@@ -1,4 +1,25 @@
-.env
-k_venv
+# Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+kvenv/
+
+# VSCode settings
+.vscode/
+
+# Django stuff
+*.log
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+static_root/
+
+# Secret files
+.env
+*.env
+
+
