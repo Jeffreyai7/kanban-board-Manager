@@ -14,11 +14,18 @@ class Task(models.Model):
         ('Done', 'Done'),
     ]
 
+    PRIORITY_CHOICES = [
+        ('Low', 'Low'),
+        ('Medium', 'Medium'),
+        ('High', 'High'),
+    ]
+
     title = models.CharField(max_length=255)
     subheading = models.CharField(max_length=255, blank=True)
     description= models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='To-do')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='tasks')
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='Medium')
     created_at = models.DateTimeField(auto_now_add=True)
 
 
