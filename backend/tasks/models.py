@@ -1,8 +1,24 @@
 from django.db import models
 from django.conf import settings
 
+
 """
-In this module, The neccessary fields needed for the tasks are defined and created.
+This module defines the Task model for the Kanban Board Manager backend application.
+
+Classes:
+    Task: Represents a task in the Kanban board, with fields for title, subheading, 
+          description, status, assigned user, priority, and creation timestamp.
+
+Task Model Fields:
+    - title (CharField): The main title of the task.
+    - subheading (CharField): An optional subheading for additional context.
+    - description (TextField): An optional detailed description of the task.
+    - status (CharField): The current status of the task, with choices: 'To-do', 'In-progress', 'In-review', 'Done'.
+    - user (ForeignKey): Reference to the user assigned to the task.
+    - priority (CharField): The priority level of the task, with choices: 'Low', 'Medium', 'High'.
+    - created_at (DateTimeField): Timestamp indicating when the task was created.
+
+The Task model includes a string representation method that returns the task's title.
 """
 
 

@@ -75,7 +75,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React dev server
+    "http://localhost:3000",
+    "https://kanban-board-manager.onrender.com"
+        # React dev server
 ]
 
 
