@@ -3,6 +3,41 @@ from django.contrib.auth import get_user_model
 from .models import VerificationCode, CustomUser
 
 
+"""
+serializers.py
+==============
+This module contains serializer classes for user registration, user details, and verification code management
+in the Kanban Board Manager backend application.
+
+Classes:
+--------
+
+- CustomRegisterSerializer:
+    Handles user registration, including email and password validation, and user creation.
+    Ensures unique email addresses and matching passwords.
+
+- UserDetailSerializer:
+    Serializes user details for retrieval, including id, email, phone number, first name, and last name.
+
+- SendCodeSerializer:
+    Handles the creation of verification codes for specific purposes (e.g., email verification, password reset).
+    Validates user existence and ensures only one active code per purpose per user.
+
+- VerifyCodeSerializer:
+    Validates the input for verifying a code, including user ID, code, and purpose.
+
+Dependencies:
+-------------
+- Django REST Framework serializers
+- Django's get_user_model
+- CustomUser and VerificationCode models
+
+Usage:
+------
+Import and use these serializers in views for user registration, detail retrieval, and verification code workflows.
+"""
+
+
 User = get_user_model()
 
 

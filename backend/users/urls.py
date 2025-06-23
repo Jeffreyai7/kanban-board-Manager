@@ -3,6 +3,26 @@ from .views import LoginView, LogoutView, RegisterView, UserDetailView, SendCode
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
+"""
+users/urls.py
+
+This module defines the URL patterns for the user management features of the Kanban Board Manager backend.
+It maps HTTP endpoints to their corresponding view classes, handling user authentication, registration,
+profile management, and integration with Google login.
+
+Endpoints:
+- user-detail: Retrieve details of the authenticated user.
+- send-code: Send a verification code to the user (e.g., for email/phone verification).
+- verify-code: Verify the code sent to the user.
+- google-login: Authenticate users via Google OAuth.
+- register: Register a new user account.
+- login: Authenticate a user and obtain JWT tokens.
+- logout: Log out the authenticated user.
+- token/refresh: Refresh JWT access tokens.
+
+The app namespace is set to 'users' for namespacing URL names in Django.
+"""
+
 
 app_name = 'users'
 
