@@ -34,6 +34,21 @@ https://docs.djangoproject.com/en/5.2/topics/http/urls/
 """
 
 
+"""
+This module defines the URL routing configuration for the kanban_backend Django project.
+
+It includes the following routes:
+- The Django admin interface at '/admin/'.
+- API endpoints for the 'tasks' app under '/api/' using the 'tasks' namespace.
+- API endpoints for the 'users' app under '/api/' using the 'users' namespace.
+
+Each included app should define its own URL patterns and use the provided namespace for reverse URL resolution.
+
+For more information, see:
+https://docs.djangoproject.com/en/5.2/topics/http/urls/
+"""
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('tasks.urls', namespace='tasks')),

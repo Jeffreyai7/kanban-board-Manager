@@ -123,6 +123,37 @@ Kanban Board Manager"""
     
 
 
+"""
+users/views.py
+==============
+
+This module contains API views for user authentication and verification in the Kanban Board Manager backend.
+It provides endpoints for user registration, login, logout, user detail retrieval, sending and verifying codes
+(for email and phone verification), and Google social login.
+
+Classes:
+--------
+
+- RegisterView: Handles user registration and sends a verification code to the user's email.
+- LoginView: Authenticates users and issues JWT tokens if credentials are valid and email is verified.
+- LogoutView: Blacklists the refresh token to log out the user.
+- UserDetailView: Retrieves details of the currently authenticated user.
+- SendCodeView: Sends a verification code to the user's email or phone (via Twilio SMS).
+- VerifyCodeView: Verifies the code sent to the user for email or phone verification.
+- GoogleLogin: Handles Google OAuth2 social login.
+
+Dependencies:
+-------------
+
+- Django REST Framework
+- dj-rest-auth
+- django-allauth
+- djangorestframework-simplejwt
+- Twilio (for SMS)
+- Custom serializers and models from the users app
+"""
+
+
 class RegisterView(APIView):
     
     permission_classes = [permissions.AllowAny]

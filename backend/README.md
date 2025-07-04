@@ -79,7 +79,9 @@ SOCIAL_AUTH_GOOGLE_CLIENT_SECRET=...
 
 ## API Endpoints
 
+
 **User**
+=======
 - POST /api/register/ — Register new user
 - POST /api/login/ — Login (JWT)
 - POST /api/logout/ — Logout
