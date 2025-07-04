@@ -16,6 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+
+"""
+This module defines the URL routing configuration for the kanban_backend Django project.
+
+It includes the following routes:
+- The Django admin interface at '/admin/'.
+- API endpoints for the 'tasks' app under '/api/' using the 'tasks' namespace.
+- API endpoints for the 'users' app under '/api/' using the 'users' namespace.
+
+Each included app should define its own URL patterns and use the provided namespace for reverse URL resolution.
+
+For more information, see:
+https://docs.djangoproject.com/en/5.2/topics/http/urls/
+"""
 
 
 """
@@ -35,6 +51,13 @@ https://docs.djangoproject.com/en/5.2/topics/http/urls/
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('tasks.urls', namespace='tasks')),
-    path('api/', include('users.urls', namespace='users')),
+    path('api/v1/', include('tasks.urls', namespace='tasks')),
+    path('api/v1/', include('users.urls', namespace='users')),
+
+
+     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
+
+
