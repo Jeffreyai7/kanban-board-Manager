@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 import uuid
+import random
 from datetime import timedelta
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
@@ -78,9 +79,14 @@ class VerificationCode(models.Model):
     PURPOSE_CHOICES = [('email', 'email'), ('phone', 'phone')]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    code = models.UUIDField(default=uuid.uuid4, editable=False)
+    code = models.CharField(max_length=6, editable=False)
     purpose = models.CharField(max_length=10, choices=PURPOSE_CHOICES)
     created = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.code:
+            self.code = '{:06d}'.format(random.randint(0, 999999))
+        super().save(*args, **kwargs)
 
     def is_expired(self):
         # Expires after 10 minutes
