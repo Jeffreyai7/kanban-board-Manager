@@ -14,8 +14,8 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 from datetime import timedelta
-# import pymysql
-# pymysql.install_as_MySQLdb()
+import pymysql
+pymysql.install_as_MySQLdb()
 import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users',
     'tasks',
     'rest_framework',
+    'drf_spectacular',
     'corsheaders',
     'phonenumber_field',
     'rest_framework_simplejwt',
@@ -75,7 +76,9 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React dev server
+    "http://localhost:3000",
+    "https://kanban-board-manager.onrender.com"
+        # React dev server
 ]
 
 
@@ -106,7 +109,10 @@ WSGI_APPLICATION = 'kanban_backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
+    'default': {
+        **dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=600),
+        'ENGINE': "django.db.backends.mysql",
+    }
 }
 
 
@@ -172,8 +178,17 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Kanban Board Manager API',
+    'DESCRIPTION': 'API documentation for Kanban Board Manager',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # Customize authentication
+    'COMPONENT_SPLIT_REQUEST': True,
+}
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
@@ -214,15 +229,35 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Development email backend
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER =   config('EMAIL_HOST_USER')
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'Kanban Board <sinbadprince9@gmail.com>'
 
-
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'django.log',
+        },
+    },
+    'loggers': {
+        'users.views': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
 
 
 
