@@ -14,8 +14,8 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 from datetime import timedelta
-# import pymysql
-# pymysql.install_as_MySQLdb()
+import pymysql
+pymysql.install_as_MySQLdb()
 import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -109,7 +109,10 @@ WSGI_APPLICATION = 'kanban_backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
+    'default': {
+        **dj_database_url.config(default=config('DATABASE_URL'), conn_max_age=600),
+        'ENGINE': "django.db.backends.mysql",
+    }
 }
 
 
